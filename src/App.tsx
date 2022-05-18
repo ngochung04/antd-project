@@ -1,16 +1,15 @@
 import "antd/dist/antd.css";
 import { Layout, Menu } from "antd";
 import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
   UserOutlined,
   VideoCameraOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-import React, { useState } from "react";
-const { Header, Sider, Content } = Layout;
+import React from "react";
 
 const App = () => {
+  const { Header, Sider, Content } = Layout;
+
   return (
     <Layout>
       <Sider>
