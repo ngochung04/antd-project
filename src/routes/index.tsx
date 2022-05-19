@@ -7,7 +7,7 @@ const index = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/:page" element={<Setting />} />
+      <Route path="/setting/:page" element={<Setting />} />
     </Routes>
   );
 };

@@ -2,7 +2,11 @@ import "antd/dist/antd.css";
 import { Layout, Menu } from "antd";
 import React from "react";
 import "./App.css";
-import { Link, useParams } from "react-router-dom";
+import {
+  unstable_HistoryRouter,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import {
   HomeOutlined,
   BellOutlined,
@@ -17,16 +21,10 @@ import Router from "./routes";
 const App = () => {
   const { Header, Sider, Content } = Layout;
   const { page } = useParams();
+  const link = useNavigate();
 
-  const selectTag = () => {
-    switch (page) {
-      case "setting":
-        return "3";
-      default:
-        return "0";
-    }
-  };
-
+  
+  console.log(page);
   return (
     <Layout style={{ backgroundColor: "#F9F6F4" }}>
       <Sider
@@ -42,19 +40,15 @@ const App = () => {
         <Menu
           style={{ backgroundColor: "#F9F6F4", border: "0", marginTop: "55px" }}
           mode="inline"
-          defaultSelectedKeys={[selectTag()]}
+          // defaultSelectedKeys={[selectTag()]}
         >
-          <Menu.Item key={1}>
-            <Link to="/">Trang chủ</Link>
+          <Menu.Item key={1} onClick={() => link("/")}>
+            Trang chủ
           </Menu.Item>
-          <Menu.Item key={2}>
-            <Link to="#">Quản lý vé</Link>
-          </Menu.Item>
-          <Menu.Item key={3}>
-            <Link to="#">Đối soát vé</Link>
-          </Menu.Item>
-          <Menu.Item key={4}>
-            <Link to="/setting">Cài đặt</Link>
+          <Menu.Item key={2}>Quản lý vé</Menu.Item>
+          <Menu.Item key={3}>Đối soát vé</Menu.Item>
+          <Menu.Item key={4} onClick={() => link("/setting")}>
+            Cài đặt
           </Menu.Item>
         </Menu>
         <div>Gói dịch vụ</div>
