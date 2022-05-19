@@ -14,43 +14,57 @@ const App = () => {
   const { Header, Sider, Content } = Layout;
 
   return (
-    <Layout>
-      <Sider>
-        <div className="logo" />
+    <Layout style={{ backgroundColor: "#F9F6F4" }}>
+      <Sider
+        width="252px"
+        style={{ backgroundColor: "#F9F6F4", margin: "17px 36px 0 33px" }}
+      >
+        <div className="logo">
+          <img src="./logo.png" alt="logo" height="58px"></img>
+        </div>
         <Menu
-          theme="dark"
+          style={{ backgroundColor: "#F9F6F4" }}
           mode="inline"
           defaultSelectedKeys={["1"]}
           items={[
             {
               key: "1",
               icon: <UserOutlined />,
-              label: "nav 1",
+              label: "Trang chủ",
             },
             {
               key: "2",
               icon: <VideoCameraOutlined />,
-              label: "nav 2",
+              label: "Quản lý vé",
             },
             {
               key: "3",
               icon: <UploadOutlined />,
-              label: "nav 3",
+              label: "Đối soát vé",
+            },
+            {
+              key: "4",
+              icon: <UploadOutlined />,
+              label: "Cài đặt",
             },
           ]}
         />
+        <div>Gói dịch vụ</div>
       </Sider>
-      <Layout className="site-layout">
+      <Layout style={{ backgroundColor: "#F9F6F4" }}>
         <Header
           className="site-layout-background"
-          style={{ padding: 0 }}
+          style={{
+            height: "85px",
+            backgroundColor: "#F9F6F4",
+          }}
         ></Header>
         <Content
           className="site-layout-background"
           style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: 280,
+            borderRadius: "24px",
+            minHeight: "963px",
+            backgroundColor: "white",
           }}
         >
           <Button type="primary">Hủy</Button>
