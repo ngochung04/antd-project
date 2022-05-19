@@ -9,3 +9,26 @@
   color: #FF993C;
   font-size: 14px;
 }
+
+
+/* MENU */
+.ant-menu-item {
+  height: 56px !important;
+  width: 252px;
+  border-radius: 8px;
+}
+.ant-menu-item-selected {
+  background-color: #FFB800 !important;
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: bold;
+  
+}
+.ant-menu-item-selected::after {
+  border-right: 0 !important;
+}
+.ant-menu-item-active {
+  color: #FFFFFF !important;
+  
+}
+

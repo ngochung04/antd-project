@@ -7,8 +7,7 @@ import {
 } from "@ant-design/icons";
 import React from "react";
 import "./App.css";
-import Button from "./components/common/Button";
-import Pagination from "./components/common/Pagination";
+import Router from "./routes";
 
 const App = () => {
   const { Header, Sider, Content } = Layout;
@@ -17,13 +16,16 @@ const App = () => {
     <Layout style={{ backgroundColor: "#F9F6F4" }}>
       <Sider
         width="252px"
-        style={{ backgroundColor: "#F9F6F4", margin: "17px 36px 0 33px" }}
+        style={{
+          backgroundColor: "#F9F6F4",
+          margin: "17px 36px 0 33px",
+        }}
       >
         <div className="logo">
           <img src="./logo.png" alt="logo" height="58px"></img>
         </div>
         <Menu
-          style={{ backgroundColor: "#F9F6F4" }}
+          style={{ backgroundColor: "#F9F6F4", border: "0", marginTop: "55px" }}
           mode="inline"
           defaultSelectedKeys={["1"]}
           items={[
@@ -67,9 +69,8 @@ const App = () => {
             backgroundColor: "white",
           }}
         >
-          <Button type="primary">Hủy</Button>
-          <Button>Lưu</Button>
-          <Pagination />
+          asd
+          {/* <Router /> */}
         </Content>
       </Layout>
     </Layout>
