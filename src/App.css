@@ -16,13 +16,25 @@
   height: 56px !important;
   width: 252px;
   border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
 }
+.ant-menu-item a:hover {
+  color: #FFB800 !important;
+}
+
 .ant-menu-item-selected {
   background-color: #FFB800 !important;
   color: #FFFFFF;
   font-size: 18px;
   font-weight: bold;
   
+}
+.ant-menu-item-selected a {  
+  color: #FFFFFF;
+}
+.ant-menu-item-selected a:hover {  
+  color: #FFFFFF !important;
 }
 .ant-menu-item-selected::after {
   border-right: 0 !important;
