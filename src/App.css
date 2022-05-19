@@ -1,15 +1,17 @@
+body {
+  font-family: "Montserrat", "sans-serif";
+}
 .ant-pagination-item-active {
-  border-color: #FF993C;
+  border-color: #ff993c;
   border-radius: 4px;
 }
 .ant-pagination-item a {
-  color: #1E0D03;
+  color: #1e0d03;
 }
 .ant-pagination-item-active a {
-  color: #FF993C;
+  color: #ff993c;
   font-size: 14px;
 }
-
 
 /* MENU */
 .ant-menu-item {
@@ -17,30 +19,34 @@
   width: 252px;
   border-radius: 8px;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: normal;
 }
-.ant-menu-item a:hover {
-  color: #FFB800 !important;
+.ant-menu-item:hover {
+  color: #ffb800 !important;
 }
 
 .ant-menu-item-selected {
-  background-color: #FFB800 !important;
-  color: #FFFFFF;
+  background-color: #ffb800 !important;
+  color: #ffffff;
   font-size: 18px;
   font-weight: bold;
-  
 }
-.ant-menu-item-selected a {  
-  color: #FFFFFF;
+.ant-menu-item-selected {
+  color: #ffffff;
 }
-.ant-menu-item-selected a:hover {  
-  color: #FFFFFF !important;
+.ant-menu-item-selected:hover {
+  color: #ffffff !important;
 }
 .ant-menu-item-selected::after {
   border-right: 0 !important;
 }
 .ant-menu-item-active {
-  color: #FFFFFF !important;
-  
+  color: #ffffff !important;
 }
-
+.ant-menu-title-content {
+  display: flex;
+  align-items: center;
+  margin-left: -1px;
+  gap: 12px;
+  letter-spacing: 0.5px;
+}

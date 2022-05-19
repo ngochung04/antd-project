@@ -4,12 +4,11 @@ interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Setting = ({ setTagIndex }: Props) => {
+const Check = ({ setTagIndex }: Props) => {
   useEffect(() => {
-    setTagIndex("setting");
+    setTagIndex("check");
   }, []);
-
-  return <div>Setting</div>;
+  return <div>Check</div>;
 };
 
-export default Setting;
+export default Check;
