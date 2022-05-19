@@ -50,3 +50,13 @@ body {
   gap: 12px;
   letter-spacing: 0.5px;
 }
+
+/*  */
+.search-input .ant-input {
+  background-color: #ededed;
+}
+.search-input .ant-input:placeholder-shown {
+  font-style: italic;
+  padding-left: 6px;
+  letter-spacing: 0.8px;
+}
