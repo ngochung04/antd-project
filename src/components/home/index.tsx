@@ -8,7 +8,7 @@ interface Props {
 const Home = ({ setTagIndex }: Props) => {
   useEffect(() => {
     setTagIndex("home");
-  }, []);
+  });
 
   return (
     <Layout.Content

@@ -7,7 +7,7 @@ interface Props {
 const Ticket = ({ setTagIndex }: Props) => {
   useEffect(() => {
     setTagIndex("ticket");
-  }, []);
+  });
   
   return <div>Ticket</div>;
 };
