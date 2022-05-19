@@ -6,6 +6,9 @@ import {
   UploadOutlined,
 } from "@ant-design/icons";
 import React from "react";
+import "./App.css";
+import Button from "./components/common/Button";
+import Pagination from "./components/common/Pagination";
 
 const App = () => {
   const { Header, Sider, Content } = Layout;
@@ -50,7 +53,9 @@ const App = () => {
             minHeight: 280,
           }}
         >
-          Content
+          <Button type="primary">Hủy</Button>
+          <Button>Lưu</Button>
+          <Pagination />
         </Content>
       </Layout>
     </Layout>
