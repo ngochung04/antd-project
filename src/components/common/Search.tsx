@@ -2,9 +2,25 @@ import { Input } from "antd";
 import React from "react";
 import { SearchOutlined } from "@ant-design/icons";
 
-const Search = () => {
+interface Props {
+  placeholder?: string;
+  size?: string;
+}
+const Search = ({ placeholder = "Search", size = "438px" }: Props) => {
   return (
-    <Input placeholder="Enter your username" suffix={<SearchOutlined />} />
+    <Input
+      placeholder={placeholder}
+      className="search-input"
+      style={{
+        width: size,
+        height: "48px",
+        borderRadius: "12px",
+        backgroundColor: "#EDEDED",
+      }}
+      suffix={
+        <SearchOutlined style={{ fontSize: "28px", marginRight: "5px" }} />
+      }
+    />
   );
 };
 

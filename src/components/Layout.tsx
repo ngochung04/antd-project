@@ -1,6 +1,6 @@
 import { Layout, Menu } from "antd";
-import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React  from "react";
+import {  useNavigate } from "react-router-dom";
 import { HomeIcon, HomeIconActive } from "./icons/HomeIcon";
 import { TicketICon, TicketIconActive } from "./icons/TicketICon";
 import {
@@ -8,6 +8,7 @@ import {
   CheckTicketIconActive,
 } from "./icons/CheckTicketICon";
 import { SettingIcon, SettingIconActive } from "./icons/SettingIcon";
+import Search from "./common/Search";
 
 interface Props {
   children: React.ReactNode;
@@ -98,8 +99,11 @@ const AppLayout = ({ children, tagIndex, setTagIndex }: Props) => {
           style={{
             height: "85px",
             backgroundColor: "#F9F6F4",
+            padding: "0px",
           }}
-        ></Header>
+        >
+          <Search />
+        </Header>
         {children}
       </Layout>
     </Layout>
