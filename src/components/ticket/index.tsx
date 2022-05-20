@@ -14,7 +14,7 @@ const Ticket = ({ setTagIndex }: Props) => {
   useEffect(() => {
     setTagIndex("ticket");
   });
-  const [dataSource, setDataSource] = React.useState<Data[]>(dataTicketPage);
+  // const [dataSource, setDataSource] = React.useState<Data[]>(dataTicketPage);
   const columns = [
     {
       title: "STT",
@@ -203,7 +203,7 @@ const Ticket = ({ setTagIndex }: Props) => {
       <Table
         bordered={false}
         style={{ marginTop: "30px", alignItems: "center" }}
-        dataSource={dataSource}
+        dataSource={dataTicketPage}
         columns={columns}
         pagination={{
           pageSize: 12,
