@@ -15,7 +15,7 @@ const Search = ({ placeholder = "Search", size = "438px" }: Props) => {
         width: size,
         height: "48px",
         borderRadius: "12px",
-        backgroundColor: "#EDE6E6",
+        backgroundColor: "#ededed",
         marginTop: "-6px",
       }}
       suffix={

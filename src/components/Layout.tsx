@@ -113,7 +113,7 @@ const AppLayout = ({ children, tagIndex, setTagIndex }: Props) => {
             alignItems: "center",
           }}
         >
-          <Search />
+          <Search size={tagIndex !== "home" ? "470px" : "438px"} />
           <div
             style={{
               paddingTop: "8px",
