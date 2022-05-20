@@ -15,7 +15,8 @@ const Search = ({ placeholder = "Search", size = "438px" }: Props) => {
         width: size,
         height: "48px",
         borderRadius: "12px",
-        backgroundColor: "#EDEDED",
+        backgroundColor: "#EDE6E6",
+        marginTop: "-6px",
       }}
       suffix={
         <SearchOutlined style={{ fontSize: "28px", marginRight: "5px" }} />

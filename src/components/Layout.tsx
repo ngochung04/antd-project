@@ -1,6 +1,6 @@
-import { Layout, Menu } from "antd";
-import React  from "react";
-import {  useNavigate } from "react-router-dom";
+import { Avatar, Layout, Menu } from "antd";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { HomeIcon, HomeIconActive } from "./icons/HomeIcon";
 import { TicketICon, TicketIconActive } from "./icons/TicketICon";
 import {
@@ -9,6 +9,8 @@ import {
 } from "./icons/CheckTicketICon";
 import { SettingIcon, SettingIconActive } from "./icons/SettingIcon";
 import Search from "./common/Search";
+import { BellIcon } from "./icons/BellIcon";
+import { MailIcon } from "./icons/MailIcon";
 
 interface Props {
   children: React.ReactNode;
@@ -93,16 +95,40 @@ const AppLayout = ({ children, tagIndex, setTagIndex }: Props) => {
           Gói dịch vụ
         </div>
       </Sider>
-      <Layout style={{ backgroundColor: "#F9F6F4" }}>
+      <Layout
+        style={{
+          backgroundColor: "#F9F6F4",
+          paddingRight: "24px",
+          paddingBottom: "32px",
+        }}
+      >
         <Header
           className="site-layout-background"
           style={{
             height: "85px",
             backgroundColor: "#F9F6F4",
             padding: "0px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
           <Search />
+          <div
+            style={{
+              paddingTop: "8px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <span style={{ marginRight: "24px" }}>
+              <MailIcon />
+            </span>
+            <span style={{ marginRight: "24px" }}>
+              <BellIcon />
+            </span>
+            <Avatar src="./avatar.png" size={48} style={{ marginTop: "2px" }} />
+          </div>
         </Header>
         {children}
       </Layout>

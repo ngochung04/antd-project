@@ -1,5 +1,26 @@
 body {
   font-family: "Montserrat", "sans-serif";
+  overflow-x: hidden;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ffb800;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #ff993c;
 }
 .ant-pagination-item-active {
   border-color: #ff993c;
@@ -53,7 +74,7 @@ body {
 
 /*  */
 .search-input .ant-input {
-  background-color: #ededed;
+  background-color: #EDE6E6;
 }
 .search-input .ant-input:placeholder-shown {
   font-style: italic;
