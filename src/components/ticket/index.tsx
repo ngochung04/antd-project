@@ -1,6 +1,5 @@
 import { Layout, Table, Typography } from "antd";
 import React, { useEffect } from "react";
-import { Data } from "../../interfaces/Data";
 import { dataTicketPage } from "../../store/data";
 import Button from "../common/Button";
 import Search from "../common/Search";
