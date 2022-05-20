@@ -41,10 +41,10 @@ body {
   background: #F7F8FB;
 
 }
-.ant-table-thead > tr > th :first-of-type{
+.ant-table-thead > tr > th:first-of-type{
   text-align: center;
 }
-.ant-table-tbody > tr > td :first-of-type{
+.ant-table-tbody > tr > td:first-of-type{
   text-align: center;
 }
 .ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {

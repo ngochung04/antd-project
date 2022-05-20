@@ -19,17 +19,23 @@ const Ticket = ({ setTagIndex }: Props) => {
     {
       title: "STT",
       dataIndex: "stt",
+      render: (stt: string) => {
+        return <div>{stt}</div>;
+      },
     },
     {
-      title: "Booking code",
+      title: () => <div style={{ marginLeft: "64px" }}>Booking code</div>,
       dataIndex: "code",
+      render: (stt: string) => {
+        return <div style={{ marginLeft: "64px" }}>{stt}</div>;
+      },
     },
     {
       title: "Số vé",
       dataIndex: "ticketNumber",
     },
     {
-      title: "Tình trạng sử dụng",
+      title: () => <div style={{ marginLeft: "64px" }}>Tình trạng sử dụng</div>,
       dataIndex: "status",
       render: (status: number) => {
         switch (status) {
@@ -37,6 +43,7 @@ const Ticket = ({ setTagIndex }: Props) => {
             return (
               <div
                 style={{
+                  marginLeft: "64px",
                   width: "fit-content",
                   padding: "0 12px",
                   display: "flex",
@@ -58,6 +65,7 @@ const Ticket = ({ setTagIndex }: Props) => {
             return (
               <div
                 style={{
+                  marginLeft: "64px",
                   width: "fit-content",
                   padding: "0 12px",
                   display: "flex",
@@ -79,6 +87,7 @@ const Ticket = ({ setTagIndex }: Props) => {
             return (
               <div
                 style={{
+                  marginLeft: "64px",
                   width: "fit-content",
                   padding: "0 12px",
                   display: "flex",
@@ -100,12 +109,54 @@ const Ticket = ({ setTagIndex }: Props) => {
       },
     },
     {
-      title: "Ngày sử dụng",
+      title: () => (
+        <div
+          style={{
+            textAlign: "right",
+            marginRight: "32px",
+          }}
+        >
+          Ngày sử dụng
+        </div>
+      ),
       dataIndex: "dateUsed",
+      render: (date: string) => {
+        return (
+          <div
+            style={{
+              textAlign: "right",
+              marginRight: "32px",
+            }}
+          >
+            {date}
+          </div>
+        );
+      },
     },
     {
-      title: "Ngày xuất vé",
+      title: () => (
+        <div
+          style={{
+            textAlign: "right",
+            marginRight: "32px",
+          }}
+        >
+          Ngày xuất vé
+        </div>
+      ),
       dataIndex: "dateExport",
+      render: (date: string) => {
+        return (
+          <div
+            style={{
+              textAlign: "right",
+              marginRight: "32px",
+            }}
+          >
+            {date}
+          </div>
+        );
+      },
     },
     {
       title: "Cổng check-in",
