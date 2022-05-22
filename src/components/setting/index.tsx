@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { dataTicketPage } from "../../store/data";
 import Button from "../common/Button";
 import Search from "../common/Search";
+import { EditorIcon } from "../icons/EditorIcon";
 import { FilterIcon } from "../icons/FilterIcon";
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
@@ -140,7 +141,23 @@ const Setting = ({ setTagIndex }: Props) => {
 
     {
       title: "",
-      dataIndex: "portCheckIn",
+      render: () => {
+        return (
+          <div
+            style={{
+              color: "#FF993C",
+              fontWeight: "500",
+              fontSize: "14px",
+              display: "flex",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+          >
+            <EditorIcon />
+            <span style={{ marginLeft: "4px" }}> Cập nhật</span>
+          </div>
+        );
+      },
     },
   ];
 
