@@ -1,9 +1,21 @@
-import { Layout, Table, Typography } from "antd";
-import React, { useEffect } from "react";
+import {
+  Col,
+  DatePicker,
+  Layout,
+  Radio,
+  RadioChangeEvent,
+  Row,
+  Select,
+  Table,
+  Typography,
+} from "antd";
+import React, { useEffect, useState } from "react";
 import { dataTicketPage } from "../../store/data";
 import Button from "../common/Button";
 import Search from "../common/Search";
 import { FilterIcon } from "../icons/FilterIcon";
+import moment from "moment";
+
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -12,6 +24,13 @@ const Check = ({ setTagIndex }: Props) => {
   useEffect(() => {
     setTagIndex("check");
   });
+
+  const [value, setValue] = useState(1);
+
+  const onChange = (e: RadioChangeEvent) => {
+    setValue(e.target.value);
+  };
+
   const columns = [
     {
       title: "STT",
@@ -155,13 +174,82 @@ const Check = ({ setTagIndex }: Props) => {
         <Typography.Title
           style={{
             marginTop: "-12px",
-            marginBottom: "46px",
+            marginBottom: "32px",
             fontSize: "24px",
             fontWeight: "700",
           }}
         >
           Lọc vé
         </Typography.Title>
+        <Select
+          showSearch
+          size="large"
+          style={{ width: "100%", marginBottom: "20px" }}
+          placeholder="Search to Select"
+          optionFilterProp="children"
+          filterOption={(input, option) =>
+            (option!.children as unknown as string).includes(input)
+          }
+          filterSort={(optionA, optionB) =>
+            (optionA!.children as unknown as string)
+              .toLowerCase()
+              .localeCompare(
+                (optionB!.children as unknown as string).toLowerCase()
+              )
+          }
+        ></Select>
+        <Row>
+          <Col span={11} style={{ fontSize: "16px" }}>
+            Tình trạng đối soát
+          </Col>
+          <Col span={11}>
+            <Radio.Group onChange={onChange} value={value}>
+              <Radio value={1} style={{ display: "block" }}>
+                Tất cả
+              </Radio>
+              <Radio value={2} style={{ display: "block" }}>
+                Đã đối soát
+              </Radio>
+              <Radio value={3} style={{ display: "block" }}>
+                Chưa đối soát
+              </Radio>
+            </Radio.Group>
+          </Col>
+        </Row>
+        <Row style={{ marginTop: "40px" }}>
+          <Col span={11} style={{ fontSize: "16px" }}>
+            Loại vé
+          </Col>
+          <Col span={11}>Vé cổng</Col>
+        </Row>
+        <Row style={{ marginTop: "24px" }}>
+          <Col span={11} style={{ fontSize: "16px" }}>
+            Từ ngày
+          </Col>
+          <Col span={11}>
+            <DatePicker
+              disabled
+              style={{ height: "40px", marginTop: "-6px", width: "100%" }}
+              defaultValue={moment("2021/05/01", "DD/MM/YYYY")}
+              format={"DD/MM/YYYY"}
+            />
+          </Col>
+        </Row>
+        <Row style={{ marginTop: "30px" }}>
+          <Col span={11} style={{ fontSize: "16px" }}>
+            Đến ngày
+          </Col>
+          <Col span={11}>
+            <DatePicker
+              style={{ height: "40px", marginTop: "-6px", width: "100%" }}
+              placeholder="dd/mm/yyy"
+              format={"DD/MM/YYYY"}
+            />
+          </Col>
+        </Row>
+        <Row style={{ margin: "32px auto" }}>
+          <Button margin="0 auto">Lọc</Button>
+        </Row>
       </Layout.Content>
     </div>
   );
