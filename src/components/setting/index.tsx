@@ -224,7 +224,7 @@ const Setting = ({ setTagIndex }: Props) => {
         }}
       />
       <Modal
-        visible={true}
+        visible={modal}
         onOk={() => setModal(false)}
         closeIcon={<></>}
         width="750px"
