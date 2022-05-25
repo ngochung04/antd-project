@@ -1,4 +1,4 @@
-import { Layout, Typography } from "antd";
+import { Layout } from "antd";
 import React, { useEffect } from "react";
 import Homex from "../homex";
 interface Props {

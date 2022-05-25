@@ -111,3 +111,39 @@ body {
   padding-left: 6px;
   letter-spacing: 0.8px;
 }
+/* select */
+.ant-select-selector {
+border-radius: 8px !important;
+background-color: #F1F4F8 !important;
+}
+.ant-select-selection-placeholder {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.ant-picker {
+  border-radius: 8px !important;
+  color: #A5A8B1;
+  
+}
+.ant-picker-input > input {
+  color: #A5A8B1 !important;
+}
+.ant-picker-input > input:placeholder-shown {
+  color: #A5A8B1 !important;
+}
+.ant-picker-input > input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #A5A8B1 !important;
+}
+
+.ant-picker-input > input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #A5A8B1 !important;
+}
+
+.ant-picker-input > input::-ms-input-placeholder { /* Microsoft Edge */
+  color: #A5A8B1 !important;
+}
+
+.ant-modal-content {
+  border-radius: 16px !important;
+}

@@ -228,7 +228,6 @@ const Check = ({ setTagIndex }: Props) => {
           </Col>
           <Col span={11}>
             <DatePicker
-              disabled
               style={{ height: "40px", marginTop: "-6px", width: "100%" }}
               defaultValue={moment("2021/05/01", "DD/MM/YYYY")}
               format={"DD/MM/YYYY"}

@@ -1,4 +1,16 @@
-import { Layout, Modal, Table, Typography } from "antd";
+import {
+  Checkbox,
+  Col,
+  DatePicker,
+  Layout,
+  Modal,
+  Row,
+  Select,
+  Table,
+  TimePicker,
+  Typography,
+} from "antd";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { dataTicketPage } from "../../store/data";
 import Button from "../common/Button";
@@ -224,7 +236,7 @@ const Setting = ({ setTagIndex }: Props) => {
         }}
       />
       <Modal
-        visible={modal}
+        visible={true}
         onOk={() => setModal(false)}
         closeIcon={<></>}
         width="750px"
@@ -256,9 +268,158 @@ const Setting = ({ setTagIndex }: Props) => {
         }}
         okText="Lưu"
       >
-        <span>Tên gói vé</span>
-        <span style={{ color: "red" }}>*</span>
-        <input type="text" />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <span
+            style={{ fontSize: "24px", fontWeight: "600", marginTop: "-4px" }}
+          >
+            Thêm gói vé
+          </span>
+        </div>
+        <div style={{ marginTop: "24px" }}>
+          <span style={{ fontSize: "16px", margin: "opx 4px" }}>
+            Tên gói vé
+          </span>
+          <span style={{ color: "red" }}> *</span>
+        </div>
+        <input
+          type="text"
+          placeholder="Nhập tên gói vé"
+          style={{
+            padding: "20px",
+            marginTop: "4px",
+            border: "1px solid #A5A8B1",
+            borderRadius: "8px",
+            height: "40px",
+            width: "370px",
+          }}
+        />
+        <Row>
+          <Col span={11}>
+            <div style={{ marginTop: "24px", marginBottom: "4px" }}>
+              <span style={{ fontSize: "16px", margin: "opx 4px" }}>
+                Ngày áp dụng
+              </span>
+            </div>
+            <DatePicker
+              style={{ height: "40px", width: "145px" }}
+              placeholder="dd:mm:yy"
+            />
+            <TimePicker
+              use12Hours
+              format="h:mm:ss"
+              placeholder="hh:mm:yy"
+              style={{ width: 140, height: "40px", marginLeft: "8px" }}
+            />
+          </Col>
+          <Col span={12}>
+            <div style={{ marginTop: "24px", marginBottom: "4px" }}>
+              <span style={{ fontSize: "16px", margin: "0px 4px" }}>
+                Ngày hết hạn
+              </span>
+            </div>
+            <DatePicker
+              style={{ height: "40px", width: "145px" }}
+              placeholder="dd:mm:yyy"
+            />
+            <TimePicker
+              placeholder="hh:mm:yy"
+              use12Hours
+              format="h:mm:ss"
+              style={{ width: 140, height: "40px", marginLeft: "8px" }}
+            />
+          </Col>
+        </Row>
+        <div style={{ fontSize: "16px", margin: "28px 0 0 4px" }}>
+          Giá vé áp dụng
+        </div>
+        <div
+          style={{ display: "flex", alignItems: "center", fontSize: "16px" }}
+        >
+          <Checkbox style={{ width: "20px" }}></Checkbox>Vé lẻ (vnđ/vé) với giá
+          <div
+            style={{
+              color: "#A5A8B1",
+              alignItems: "center",
+              margin: "0 4px",
+              padding: "0 8px",
+              display: "inline-flex",
+              height: "40px",
+              width: "150px",
+              background: "#F1F4F8",
+              borderRadius: "8px",
+            }}
+          >
+            Giá vé
+          </div>
+          /vé
+        </div>
+        <div
+          style={{
+            marginTop: "8px",
+            display: "flex",
+            alignItems: "center",
+            fontSize: "16px",
+          }}
+        >
+          <Checkbox style={{ width: "20px" }}></Checkbox>Combo vé với giá
+          <div
+            style={{
+              color: "#A5A8B1",
+              alignItems: "center",
+              margin: "0 4px",
+              padding: "0 8px",
+              display: "inline-flex",
+              height: "40px",
+              width: "150px",
+              background: "#F1F4F8",
+              borderRadius: "8px",
+            }}
+          >
+            Giá vé
+          </div>
+          /
+          <div
+            style={{
+              color: "#A5A8B1",
+              alignItems: "center",
+              margin: "0 4px",
+              padding: "0 8px",
+              display: "inline-flex",
+              height: "40px",
+              width: "150px",
+              background: "#F1F4F8",
+              borderRadius: "8px",
+            }}
+          >
+            Giá vé
+          </div>
+          vé
+        </div>
+        <div style={{ fontSize: "16px", margin: "28px 0 0 4px" }}>
+          Tình trạng
+        </div>
+        <Select
+          showSearch
+          size="large"
+          style={{ width: "180px", marginBottom: "20px" }}
+          placeholder="Đang áp dụng"
+          optionFilterProp="children"
+          filterOption={(input, option) =>
+            (option!.children as unknown as string).includes(input)
+          }
+          filterSort={(optionA, optionB) =>
+            (optionA!.children as unknown as string)
+              .toLowerCase()
+              .localeCompare(
+                (optionB!.children as unknown as string).toLowerCase()
+              )
+          }
+        ></Select>
+
+        <div>
+          <span style={{ color: "red" }}> *</span>{" "}
+          <span style={{ fontStyle: "italic" }}>là thông tin bắt buộc</span>
+        </div>
       </Modal>
     </Layout.Content>
   );
