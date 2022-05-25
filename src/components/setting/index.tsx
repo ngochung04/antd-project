@@ -10,7 +10,6 @@ import {
   TimePicker,
   Typography,
 } from "antd";
-import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { dataTicketPage } from "../../store/data";
 import Button from "../common/Button";
@@ -236,7 +235,7 @@ const Setting = ({ setTagIndex }: Props) => {
         }}
       />
       <Modal
-        visible={true}
+        visible={modal}
         onOk={() => setModal(false)}
         closeIcon={<></>}
         width="750px"
