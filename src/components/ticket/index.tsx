@@ -13,34 +13,18 @@ import { dataTicketPage } from "../../store/data";
 import Button from "../common/Button";
 import Search from "../common/Search";
 import { FilterIcon } from "../icons/FilterIcon";
-import { Checkbox, Divider } from "antd";
-import type { CheckboxValueType } from "antd/es/checkbox/Group";
-import type { CheckboxChangeEvent } from "antd/es/checkbox";
+import { Checkbox } from "antd";
 
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
 }
-const plainOptions = ["Cổng 1", "Cổng 2", "Cổng 3", "Cổng 4"];
 const Ticket = ({ setTagIndex }: Props) => {
   useEffect(() => {
     setTagIndex("ticket");
   });
+
   const [modal, setModal] = useState(false);
-  const [checkedList, setCheckedList] = useState<CheckboxValueType[]>([]);
-  const [indeterminate, setIndeterminate] = useState(true);
-  const [checkAll, setCheckAll] = useState(false);
 
-  const onChange = (list: CheckboxValueType[]) => {
-    setCheckedList(list);
-    setIndeterminate(!!list.length && list.length < plainOptions.length);
-    setCheckAll(list.length === plainOptions.length);
-  };
-
-  const onCheckAllChange = (e: CheckboxChangeEvent) => {
-    setCheckedList(e.target.checked ? plainOptions : []);
-    setIndeterminate(false);
-    setCheckAll(e.target.checked);
-  };
   const columns = [
     {
       title: "STT",

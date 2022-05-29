@@ -1,5 +1,4 @@
 import {
-  Checkbox,
   Col,
   DatePicker,
   Layout,
@@ -8,16 +7,13 @@ import {
   Row,
   Select,
   Table,
-  TimePicker,
   Typography,
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { dataTicketPage } from "../../store/data";
 import Button from "../common/Button";
 import Search from "../common/Search";
-import { FilterIcon } from "../icons/FilterIcon";
 import moment from "moment";
-import Modal from "antd/lib/modal/Modal";
 
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
@@ -29,7 +25,6 @@ const Check = ({ setTagIndex }: Props) => {
   });
 
   const [value, setValue] = useState(1);
-  const [modal, setModal] = useState(false);
 
   const onChange = (e: RadioChangeEvent) => {
     setValue(e.target.value);
