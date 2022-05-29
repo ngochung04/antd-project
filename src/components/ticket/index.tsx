@@ -1,19 +1,46 @@
-import { Layout, Table, Typography } from "antd";
-import React, { useEffect } from "react";
+import {
+  Col,
+  DatePicker,
+  Layout,
+  Modal,
+  Radio,
+  Row,
+  Table,
+  Typography,
+} from "antd";
+import React, { useEffect, useState } from "react";
 import { dataTicketPage } from "../../store/data";
 import Button from "../common/Button";
 import Search from "../common/Search";
 import { FilterIcon } from "../icons/FilterIcon";
+import { Checkbox, Divider } from "antd";
+import type { CheckboxValueType } from "antd/es/checkbox/Group";
+import type { CheckboxChangeEvent } from "antd/es/checkbox";
 
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
 }
-
+const plainOptions = ["Cổng 1", "Cổng 2", "Cổng 3", "Cổng 4"];
 const Ticket = ({ setTagIndex }: Props) => {
   useEffect(() => {
     setTagIndex("ticket");
   });
-  // const [dataSource, setDataSource] = React.useState<Data[]>(dataTicketPage);
+  const [modal, setModal] = useState(false);
+  const [checkedList, setCheckedList] = useState<CheckboxValueType[]>([]);
+  const [indeterminate, setIndeterminate] = useState(true);
+  const [checkAll, setCheckAll] = useState(false);
+
+  const onChange = (list: CheckboxValueType[]) => {
+    setCheckedList(list);
+    setIndeterminate(!!list.length && list.length < plainOptions.length);
+    setCheckAll(list.length === plainOptions.length);
+  };
+
+  const onCheckAllChange = (e: CheckboxChangeEvent) => {
+    setCheckedList(e.target.checked ? plainOptions : []);
+    setIndeterminate(false);
+    setCheckAll(e.target.checked);
+  };
   const columns = [
     {
       title: "STT",
@@ -185,7 +212,7 @@ const Ticket = ({ setTagIndex }: Props) => {
       >
         <Search size="445px" placeholder="Tìm bằng số vé" />
         <div style={{ marginTop: "-4px" }}>
-          <Button margin="0 10px" width="128px">
+          <Button margin="0 10px" width="128px" onClick={() => setModal(true)}>
             <span
               style={{
                 display: "inline-block",
@@ -216,6 +243,107 @@ const Ticket = ({ setTagIndex }: Props) => {
           nextIcon: <span style={{ color: "#A5A8B1" }}> &#9654;</span>,
         }}
       />
+      <Modal
+        visible={modal}
+        onOk={() => setModal(false)}
+        closeIcon={<></>}
+        width="630px"
+        bodyStyle={{ borderRadius: "16px" }}
+        onCancel={() => setModal(false)}
+        cancelText="Hủy"
+        okButtonProps={{
+          style: {
+            marginRight: "230px",
+            height: "40px",
+            padding: "0 48px",
+            borderRadius: "8px",
+            backgroundColor: "#FF993C",
+            border: "2px solid #FF993C",
+            fontSize: "16px",
+            fontWeight: "600",
+          },
+        }}
+        cancelButtonProps={{
+          style: {
+            display: "none",
+          },
+        }}
+        okText="Lọc"
+      >
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <span
+            style={{ fontSize: "24px", fontWeight: "600", marginTop: "-4px" }}
+          >
+            Lọc vé
+          </span>
+        </div>
+        <Row>
+          <Col span={11}>
+            <div style={{ marginTop: "24px", marginBottom: "4px" }}>
+              <span style={{ fontSize: "16px", margin: "opx 4px" }}>
+                Từ ngày
+              </span>
+            </div>
+            <DatePicker
+              style={{ height: "40px", width: "145px" }}
+              placeholder="dd:mm:yy"
+            />
+          </Col>
+          <Col span={12}>
+            <div style={{ marginTop: "24px", marginBottom: "4px" }}>
+              <span style={{ fontSize: "16px", margin: "0px 4px" }}>
+                Đến ngày
+              </span>
+            </div>
+            <DatePicker
+              style={{ height: "40px", width: "145px" }}
+              placeholder="dd:mm:yyy"
+            />
+          </Col>
+        </Row>
+        <div style={{ fontSize: "16px", margin: "28px 0 0 4px" }}>
+          Tình trạng sử dụng
+        </div>
+
+        <Radio.Group>
+          <Radio value={1} style={{ width: "135px" }}>
+            Tất cả
+          </Radio>
+          <Radio value={2} style={{ width: "135px" }}>
+            Đã sử dụng
+          </Radio>
+          <Radio value={3} style={{ width: "135px" }}>
+            Chưa sử dụng
+          </Radio>
+          <Radio value={4} style={{ width: "135px" }}>
+            Hết hạn
+          </Radio>
+        </Radio.Group>
+        <div style={{ fontSize: "16px", margin: "28px 0 0 4px" }}>
+          Cổng Check-in
+        </div>
+
+        <Row>
+          <Col span={8}>
+            <Checkbox value="All">Check All</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox value="A">Cổng 1</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox value="B">Cổng 2</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox value="C">Cổng 3</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox value="D">Cổng 4</Checkbox>
+          </Col>
+          <Col span={8}>
+            <Checkbox value="E">Cổng 5</Checkbox>
+          </Col>
+        </Row>
+      </Modal>
     </Layout.Content>
   );
 };

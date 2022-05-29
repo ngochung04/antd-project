@@ -1,4 +1,5 @@
 import {
+  Checkbox,
   Col,
   DatePicker,
   Layout,
@@ -7,6 +8,7 @@ import {
   Row,
   Select,
   Table,
+  TimePicker,
   Typography,
 } from "antd";
 import React, { useEffect, useState } from "react";
@@ -15,6 +17,7 @@ import Button from "../common/Button";
 import Search from "../common/Search";
 import { FilterIcon } from "../icons/FilterIcon";
 import moment from "moment";
+import Modal from "antd/lib/modal/Modal";
 
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
@@ -26,6 +29,7 @@ const Check = ({ setTagIndex }: Props) => {
   });
 
   const [value, setValue] = useState(1);
+  const [modal, setModal] = useState(false);
 
   const onChange = (e: RadioChangeEvent) => {
     setValue(e.target.value);
@@ -130,18 +134,9 @@ const Check = ({ setTagIndex }: Props) => {
         >
           <Search size="445px" placeholder="Tìm bằng số vé" />
           <div style={{ marginTop: "-4px" }}>
-            <Button margin="0 10px" width="128px">
-              <span
-                style={{
-                  display: "inline-block",
-                  transform: "translate(-6px, 4px)",
-                }}
-              >
-                <FilterIcon />
-              </span>
-              Lọc vé
+            <Button margin="0 10px" width="170px" type="primary">
+              Chốt đối xoát
             </Button>
-            <Button width="180px">Xuất file (.csv)</Button>
           </div>
         </div>
         <Table

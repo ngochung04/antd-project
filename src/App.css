@@ -26,11 +26,11 @@ body {
 /* Table */
 
 .ant-table-thead > tr > th {
-  background: #F1F4F8;
-  color: #1E0D03;
+  background: #f1f4f8;
+  color: #1e0d03;
   font-weight: 600;
   font-size: 16px;
-  padding: 11px 16px
+  padding: 11px 16px;
 }
 .ant-table-tbody > tr > td {
   padding: 8px 16px;
@@ -38,16 +38,17 @@ body {
   border-bottom: none;
 }
 .ant-table-tbody > tr:nth-child(2n) {
-  background: #F7F8FB;
-
+  background: #f7f8fb;
 }
-.ant-table-thead > tr > th:first-of-type{
+.ant-table-thead > tr > th:first-of-type {
   text-align: center;
 }
-.ant-table-tbody > tr > td:first-of-type{
+.ant-table-tbody > tr > td:first-of-type {
   text-align: center;
 }
-.ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+.ant-table-thead
+  > tr
+  > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
   display: none;
 }
 
@@ -113,8 +114,8 @@ body {
 }
 /* select */
 .ant-select-selector {
-border-radius: 8px !important;
-background-color: #F1F4F8 !important;
+  border-radius: 8px !important;
+  background-color: #f1f4f8 !important;
 }
 .ant-select-selection-placeholder {
   font-size: 16px;
@@ -123,27 +124,32 @@ background-color: #F1F4F8 !important;
 
 .ant-picker {
   border-radius: 8px !important;
-  color: #A5A8B1;
-  
+  color: #a5a8b1;
 }
 .ant-picker-input > input {
-  color: #A5A8B1 !important;
+  color: #a5a8b1 !important;
 }
 .ant-picker-input > input:placeholder-shown {
-  color: #A5A8B1 !important;
+  color: #a5a8b1 !important;
 }
-.ant-picker-input > input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: #A5A8B1 !important;
-}
-
-.ant-picker-input > input:-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color: #A5A8B1 !important;
+.ant-picker-input > input::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #a5a8b1 !important;
 }
 
-.ant-picker-input > input::-ms-input-placeholder { /* Microsoft Edge */
-  color: #A5A8B1 !important;
+.ant-picker-input > input:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #a5a8b1 !important;
+}
+
+.ant-picker-input > input::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #a5a8b1 !important;
 }
 
 .ant-modal-content {
   border-radius: 16px !important;
+}
+.ant-checkbox-wrapper {
+  width: 160px;
 }
