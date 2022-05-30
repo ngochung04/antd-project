@@ -1,122 +1,40 @@
 import { Col, DatePicker, Layout, Row, Typography } from "antd";
 import React, { useEffect } from "react";
-import { Area, Pie } from "@ant-design/plots";
+import { Area } from "@ant-design/plots";
 import moment from "moment";
+import { Doughnut } from "react-chartjs-2";
+import { CategoryScale } from "chart.js";
+import Chart from "chart.js/auto";
+
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
 }
-
+Chart.register(CategoryScale);
 const Home = ({ setTagIndex }: Props) => {
   useEffect(() => {
     setTagIndex("home");
   });
-  const data1 = [
-    {
-      type: "Vé chưa sử dụng",
-      value: 13568,
-    },
-    {
-      type: "Vé đã sử dụng",
-      value: 56024,
-    },
-  ];
-  const config1 = {
-    appendPadding: 10,
-    data: data1,
-    angleField: "value",
-    colorField: "type",
-    color: ({ type }: any) => {
-      if (type === "Vé chưa sử dụng") {
-        return "#FF8A48";
-      }
-      return "#4F75FF";
-    },
-    radius: 1,
-    innerRadius: 0.6,
-    label: {
-      content: "{value}",
-      type: "spiders",
-      style: {
-        textAlign: "center",
-        fontSize: 14,
-      },
-    },
-    interactions: [
-      {
-        type: "element-selected",
-      },
-      {
-        type: "element-active",
-      },
-    ],
-    statistic: {
-      title: false,
-      content: {
-        style: {
-          whiteSpace: "pre-wrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        },
-        content: "",
-      },
-    },
-    legen: {
-      maxWidth: "0px",
-      maxHeight: "0px",
-    },
-  };
-  const data2 = [
-    {
-      type: "Vé chưa sử dụng",
-      value: 13568,
-    },
-    {
-      type: "Vé đã sử dụng",
-      value: 56024,
-    },
-  ];
-  const config2 = {
-    appendPadding: 10,
-    data: data2,
-    angleField: "value",
-    colorField: "type",
-    color: ({ type }: any) => {
-      if (type === "Vé chưa sử dụng") {
-        return "#FF8A48";
-      }
-      return "#4F75FF";
-    },
-    radius: 1,
-    innerRadius: 0.6,
-    label: {
-      content: "{value}",
-      type: "spiders",
-      style: {
-        textAlign: "center",
-        fontSize: 14,
-      },
-    },
-    interactions: [
-      {
-        type: "element-selected",
-      },
-      {
-        type: "element-active",
-      },
-    ],
-    statistic: {
-      title: false,
-      content: {
-        style: {
-          whiteSpace: "pre-wrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        },
-        content: "",
-      },
-    },
-  };
 
+  const dataDoughnut1 = {
+    labels: undefined,
+    datasets: [
+      {
+        label: undefined,
+        data: [13568, 56024],
+        backgroundColor: ["#FF8A48", "#4F75FF"],
+      },
+    ],
+  };
+  const dataDoughnut2 = {
+    labels: undefined,
+    datasets: [
+      {
+        label: undefined,
+        data: [60, 100],
+        backgroundColor: ["#FF8A48", "#4F75FF"],
+      },
+    ],
+  };
   const data = [
     {
       timePeriod: "THỨ 2",
@@ -150,10 +68,22 @@ const Home = ({ setTagIndex }: Props) => {
 
   const config = {
     data,
+    labels: data.map((item) => item.timePeriod),
     xField: "timePeriod",
     yField: "value",
     xAxis: {
       range: [0, 1],
+    },
+    line: {
+      color: "#FF993C",
+      size: 2,
+      height: 400,
+    },
+    areaStyle: () => {
+      return {
+        fill: "l(270) 0:#ffffff 0.5:rgb(255 153 60 / 79%) 1:#FF993C",
+        height: 300,
+      };
     },
   };
 
@@ -185,7 +115,7 @@ const Home = ({ setTagIndex }: Props) => {
       <h1 style={{ fontWeight: "bold", display: "inline" }}>525.145.000 </h1>
       <span style={{ display: "inline" }}>đồng</span>
       <Row>
-        <Col span={4}>
+        <Col span={5}>
           <div
             style={{
               height: "40px",
@@ -195,15 +125,31 @@ const Home = ({ setTagIndex }: Props) => {
             <DatePicker defaultValue={moment("2015/01/01")} />
           </div>
         </Col>
-        <Col span={12}>Gói gia đình</Col>
-        <Col span={8}>Gói sự kiện</Col>
+        <Col
+          span={12}
+          style={{
+            height: "40px",
+            marginTop: "36px",
+          }}
+        >
+          Gói gia đình
+        </Col>
+        <Col
+          span={5}
+          style={{
+            height: "40px",
+            marginTop: "36px",
+          }}
+        >
+          Gói sự kiện
+        </Col>
       </Row>
       <Row>
-        <Col span={12}>
-          <Pie {...config1} />
+        <Col span={12} style={{ padding: "0 150px" }}>
+          <Doughnut data={dataDoughnut1} />
         </Col>
-        <Col span={12}>
-          <Pie {...config2} />
+        <Col span={12} style={{ padding: "0 150px" }}>
+          <Doughnut data={dataDoughnut2} />
         </Col>
       </Row>
     </Layout.Content>
