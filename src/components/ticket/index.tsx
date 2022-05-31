@@ -9,19 +9,33 @@ import {
   Typography,
 } from "antd";
 import React, { useEffect, useState } from "react";
-import { dataTicketPage } from "../../store/data";
+// import { dataTicketPage } from "../../store/data";
 import Button from "../common/Button";
 import Search from "../common/Search";
 import { FilterIcon } from "../icons/FilterIcon";
 import { Checkbox } from "antd";
+import { db } from "../../firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
 }
 const Ticket = ({ setTagIndex }: Props) => {
+  const [dataTicketPage, setDataTicketPage] = useState<any[]>([]);
   useEffect(() => {
     setTagIndex("ticket");
-  });
+    const data = async () => {
+      const ticket = await getDocs(collection(db, "ticket"));
+      const ticketData = ticket.docs.map((item: any) => {
+        return {
+          ...item.data(),
+          id: item.id,
+        };
+      });
+      setDataTicketPage(ticketData);
+    };
+    data();
+  }, []);
 
   const [modal, setModal] = useState(false);
 
