@@ -9,13 +9,12 @@ import {
   Typography,
 } from "antd";
 import React, { useEffect, useState } from "react";
-// import { dataTicketPage } from "../../store/data";
 import Button from "../common/Button";
 import Search from "../common/Search";
 import { FilterIcon } from "../icons/FilterIcon";
 import { Checkbox } from "antd";
 import { db } from "../../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs } from "firebase/firestore";
 
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
@@ -221,7 +220,24 @@ const Ticket = ({ setTagIndex }: Props) => {
             </span>
             Lọc vé
           </Button>
-          <Button width="180px">Xuất file (.csv)</Button>
+          <Button
+            width="180px"
+            onClick={() => {
+              [...Array(200)].map((x, i) =>
+                addDoc(collection(db, "ticket"), {
+                  stt: i,
+                  code: "ABCD123",
+                  ticketNumber: 123456789,
+                  status: -1,
+                  dateUsed: "05/02/2022",
+                  dateExport: "05/02/2022",
+                  portCheckIn: "Cổng 1",
+                })
+              );
+            }}
+          >
+            Xuất file (.csv)
+          </Button>
         </div>
       </div>
       <Table
