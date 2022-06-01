@@ -14,7 +14,13 @@ import Search from "../common/Search";
 import { FilterIcon } from "../icons/FilterIcon";
 import { Checkbox } from "antd";
 import { db } from "../../firebase";
-import { addDoc, collection, doc, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  onSnapshot,
+} from "firebase/firestore";
 
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
@@ -24,14 +30,25 @@ const Ticket = ({ setTagIndex }: Props) => {
   useEffect(() => {
     setTagIndex("ticket");
     const data = async () => {
-      const ticket = await getDocs(collection(db, "ticket"));
-      const ticketData = ticket.docs.map((item: any) => {
-        return {
-          ...item.data(),
-          id: item.id,
-        };
+      // const ticket = await getDocs(collection(db, "ticket"));
+      // const ticketData = ticket.docs.map((item: any) => {
+      //   return {
+      //     ...item.data(),
+      //     id: item.id,
+      //   };
+      // });
+      // const q = query(
+      //   collection(db, "ticket"),
+      //   where("author", "==", "patrick rothfuss"),
+      //   orderBy("createdAt")
+      // );
+      onSnapshot(collection(db, "ticket"), (snapshot) => {
+        const books: any = [];
+        snapshot.docs.forEach((doc) => {
+          books.push({ ...doc.data(), id: doc.id });
+        });
+        setDataTicketPage(books);
       });
-      setDataTicketPage(ticketData);
     };
     data();
   }, []);
