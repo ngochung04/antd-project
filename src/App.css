@@ -153,3 +153,6 @@ body {
 .ant-checkbox-wrapper {
   width: 160px;
 }
+.ant-pagination-options {
+  display: none;
+}

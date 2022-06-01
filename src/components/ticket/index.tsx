@@ -222,19 +222,18 @@ const Ticket = ({ setTagIndex }: Props) => {
           </Button>
           <Button
             width="180px"
-            onClick={() => {
-              [...Array(200)].map((x, i) =>
-                addDoc(collection(db, "ticket"), {
-                  stt: i,
-                  code: "ABCD123",
-                  ticketNumber: 123456789,
-                  status: -1,
-                  dateUsed: "05/02/2022",
-                  dateExport: "05/02/2022",
-                  portCheckIn: "Cổng 1",
-                })
-              );
-            }}
+            // onClick={() => {
+            //   [...Array(200)].map((x, i) =>
+            //     addDoc(collection(db, "check"), {
+            //       stt: i,
+            //       ticketNumber: "123456",
+            //       name: "Hội chợ triển lãm tiêu dùng 2021",
+            //       dateUsed: "05/02/2022",
+            //       type: "Vé cổng",
+            //       port: "Cổng 1",
+            //     })
+            //   );
+            // }}
           >
             Xuất file (.csv)
           </Button>
