@@ -14,13 +14,7 @@ import Search from "../common/Search";
 import { FilterIcon } from "../icons/FilterIcon";
 import { Checkbox } from "antd";
 import { db } from "../../firebase";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDocs,
-  onSnapshot,
-} from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;

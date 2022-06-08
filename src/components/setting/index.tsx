@@ -11,17 +11,42 @@ import {
   Typography,
 } from "antd";
 import React, { useEffect, useState } from "react";
-import { dataTicketPage } from "../../store/data";
 import Button from "../common/Button";
 import Search from "../common/Search";
 import { EditorIcon } from "../icons/EditorIcon";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase";
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Setting = ({ setTagIndex }: Props) => {
+  const [dataTicketPage, setDataTicketPage] = useState<any[]>([]);
+
   useEffect(() => {
     setTagIndex("setting");
+    const data = async () => {
+      // const ticket = await getDocs(collection(db, "ticket"));
+      // const ticketData = ticket.docs.map((item: any) => {
+      //   return {
+      //     ...item.data(),
+      //     id: item.id,
+      //   };
+      // });
+      // const q = query(
+      //   collection(db, "ticket"),
+      //   where("author", "==", "patrick rothfuss"),
+      //   orderBy("createdAt")
+      // );
+      onSnapshot(collection(db, "setting"), (snapshot: any) => {
+        const books: any = [];
+        snapshot.docs.forEach((doc: any) => {
+          books.push({ ...doc.data(), id: doc.id });
+        });
+        setDataTicketPage(books);
+      });
+    };
+    data();
   });
 
   const [modal, setModal] = useState(false);
