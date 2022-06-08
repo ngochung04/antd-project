@@ -14,13 +14,14 @@ import Search from "../common/Search";
 import { FilterIcon } from "../icons/FilterIcon";
 import { Checkbox } from "antd";
 import { db } from "../../firebase";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, increment, onSnapshot } from "firebase/firestore";
 
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
 }
 const Ticket = ({ setTagIndex }: Props) => {
   const [dataTicketPage, setDataTicketPage] = useState<any[]>([]);
+  const [data, setData] = useState<any[]>([]);
   useEffect(() => {
     setTagIndex("ticket");
     const data = async () => {
@@ -42,10 +43,33 @@ const Ticket = ({ setTagIndex }: Props) => {
           books.push({ ...doc.data(), id: doc.id });
         });
         setDataTicketPage(books);
+        setData(books);
       });
     };
     data();
   }, []);
+
+  const [datefrom, setFrom] = useState<Date>();
+  const [dateto, setTo] = useState<Date>();
+  const [status, setStatus] = useState(-2);
+
+  const [check, setCheck] = useState<number[]>([1, 2, 3, 4, 5]);
+
+  const onClick = (val: number) => {
+    if (check.includes(val)) {
+      setCheck(check.filter((item) => item !== val));
+    } else {
+      if (val === 0) {
+        if (check.length === 5) {
+          setCheck([]);
+        } else {
+          setCheck([1, 2, 3, 4, 5]);
+        }
+      } else {
+        setCheck([...check, val]);
+      }
+    }
+  };
 
   const [modal, setModal] = useState(false);
 
@@ -117,7 +141,7 @@ const Ticket = ({ setTagIndex }: Props) => {
                 Đã sử dụng
               </div>
             );
-          default:
+          case -1:
             return (
               <div
                 style={{
@@ -271,7 +295,33 @@ const Ticket = ({ setTagIndex }: Props) => {
       />
       <Modal
         visible={modal}
-        onOk={() => setModal(false)}
+        onOk={() => {
+          const newArr1 = data.filter((item) => {
+            if (status !== -2) {
+              return item.status === status;
+            }
+            return true;
+          });
+          const newArr2 = newArr1.filter((item) =>
+            check.includes(
+              Number(item.portCheckIn.slice(item.portCheckIn.length - 1))
+            )
+          );
+          const newArr3 = newArr2.filter((item) => {
+            if (
+              datefrom &&
+              dateto &&
+              item.dateExport < datefrom.toLocaleDateString() &&
+              item.dateExport > dateto.toLocaleDateString()
+            )
+              return false;
+            return true;
+            
+          });
+          // console.log(newArr3);
+          setDataTicketPage(newArr3);
+          setModal(false);
+        }}
         closeIcon={<></>}
         width="630px"
         bodyStyle={{ borderRadius: "16px" }}
@@ -311,6 +361,9 @@ const Ticket = ({ setTagIndex }: Props) => {
               </span>
             </div>
             <DatePicker
+              onChange={(e) => {
+                setFrom(e?.toDate());
+              }}
               style={{ height: "40px", width: "145px" }}
               placeholder="dd:mm:yy"
             />
@@ -322,6 +375,9 @@ const Ticket = ({ setTagIndex }: Props) => {
               </span>
             </div>
             <DatePicker
+              onChange={(e) => {
+                setTo(e?.toDate());
+              }}
               style={{ height: "40px", width: "145px" }}
               placeholder="dd:mm:yyy"
             />
@@ -331,17 +387,17 @@ const Ticket = ({ setTagIndex }: Props) => {
           Tình trạng sử dụng
         </div>
 
-        <Radio.Group>
-          <Radio value={1} style={{ width: "135px" }}>
+        <Radio.Group onChange={(e) => setStatus(e.target.value)}>
+          <Radio value={-2} style={{ width: "135px" }}>
             Tất cả
           </Radio>
-          <Radio value={2} style={{ width: "135px" }}>
+          <Radio value={1} style={{ width: "135px" }}>
             Đã sử dụng
           </Radio>
-          <Radio value={3} style={{ width: "135px" }}>
+          <Radio value={0} style={{ width: "135px" }}>
             Chưa sử dụng
           </Radio>
-          <Radio value={4} style={{ width: "135px" }}>
+          <Radio value={-1} style={{ width: "135px" }}>
             Hết hạn
           </Radio>
         </Radio.Group>
@@ -351,22 +407,34 @@ const Ticket = ({ setTagIndex }: Props) => {
 
         <Row>
           <Col span={8}>
-            <Checkbox value="All">Check All</Checkbox>
+            <Checkbox checked={check.length === 5} onClick={() => onClick(0)}>
+              Check All
+            </Checkbox>
           </Col>
           <Col span={8}>
-            <Checkbox value="A">Cổng 1</Checkbox>
+            <Checkbox checked={check.includes(1)} onClick={() => onClick(1)}>
+              Cổng 1
+            </Checkbox>
           </Col>
           <Col span={8}>
-            <Checkbox value="B">Cổng 2</Checkbox>
+            <Checkbox checked={check.includes(2)} onClick={() => onClick(2)}>
+              Cổng 2
+            </Checkbox>
           </Col>
           <Col span={8}>
-            <Checkbox value="C">Cổng 3</Checkbox>
+            <Checkbox checked={check.includes(3)} onClick={() => onClick(3)}>
+              Cổng 3
+            </Checkbox>
           </Col>
           <Col span={8}>
-            <Checkbox value="D">Cổng 4</Checkbox>
+            <Checkbox checked={check.includes(4)} onClick={() => onClick(4)}>
+              Cổng 4
+            </Checkbox>
           </Col>
           <Col span={8}>
-            <Checkbox value="E">Cổng 5</Checkbox>
+            <Checkbox checked={check.includes(5)} onClick={() => onClick(5)}>
+              Cổng 5
+            </Checkbox>
           </Col>
         </Row>
       </Modal>
