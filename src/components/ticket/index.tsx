@@ -42,9 +42,9 @@ const Ticket = ({ setTagIndex }: Props) => {
       //   where("author", "==", "patrick rothfuss"),
       //   orderBy("createdAt")
       // );
-      onSnapshot(collection(db, "ticket"), (snapshot) => {
+      onSnapshot(collection(db, "ticket"), (snapshot: any) => {
         const books: any = [];
-        snapshot.docs.forEach((doc) => {
+        snapshot.docs.forEach((doc: any) => {
           books.push({ ...doc.data(), id: doc.id });
         });
         setDataTicketPage(books);
@@ -240,14 +240,16 @@ const Ticket = ({ setTagIndex }: Props) => {
           <Button
             width="180px"
             // onClick={() => {
-            //   [...Array(200)].map((x, i) =>
-            //     addDoc(collection(db, "check"), {
+            //   [...Array(30)].map((x, i) =>
+            //     addDoc(collection(db, "setting"), {
             //       stt: i,
-            //       ticketNumber: "123456",
-            //       name: "Hội chợ triển lãm tiêu dùng 2021",
-            //       dateUsed: "05/02/2022",
-            //       type: "Vé cổng",
-            //       port: "Cổng 1",
+            //       code: "ABCDEF" + i,
+            //       name: "AAAAAA" + i,
+            //       dateUsed: i + "/03/2022",
+            //       dateExport: i + "/01/2022",
+            //       price: "Cổng 1",
+            //       priceC: "Cổng 1",
+            //       status: Math.floor(Math.random() * 3) - 1,
             //     })
             //   );
             // }}
