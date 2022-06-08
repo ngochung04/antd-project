@@ -44,7 +44,7 @@ const Setting = ({ setTagIndex }: Props) => {
     },
     {
       title: () => <div style={{}}>Tên gói</div>,
-      dataIndex: "code",
+      dataIndex: "name",
       render: (stt: string) => {
         return <div style={{}}>{stt}</div>;
       },
@@ -97,14 +97,14 @@ const Setting = ({ setTagIndex }: Props) => {
     },
     {
       title: () => <div style={{}}>Giá vé {"(VND/Vé)"}</div>,
-      dataIndex: "code",
+      dataIndex: "price",
       render: () => {
         return <div style={{}}>90.000 VNĐ</div>;
       },
     },
     {
       title: () => <div style={{}}>Giá vé {"(VND/Combo)"}</div>,
-      dataIndex: "code",
+      dataIndex: "priceC",
       render: () => {
         return <div style={{}}>360.000 VNĐ/4 Vé</div>;
       },
