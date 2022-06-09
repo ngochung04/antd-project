@@ -47,7 +47,7 @@ const Ticket = ({ setTagIndex }: Props) => {
       });
     };
     data();
-  }, []);
+  }, [setTagIndex]);
 
   const [datefrom, setFrom] = useState<Date>();
   const [dateto, setTo] = useState<Date>();
@@ -316,7 +316,6 @@ const Ticket = ({ setTagIndex }: Props) => {
             )
               return false;
             return true;
-            
           });
           // console.log(newArr3);
           setDataTicketPage(newArr3);

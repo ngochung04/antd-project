@@ -35,7 +35,7 @@ const Check = ({ setTagIndex }: Props) => {
       setDataTicketPage(ticketData);
     };
     data();
-  });
+  }, [setTagIndex]);
 
   const [value, setValue] = useState(1);
 

@@ -47,7 +47,7 @@ const Setting = ({ setTagIndex }: Props) => {
       });
     };
     data();
-  });
+  }, [setTagIndex]);
 
   const [modal, setModal] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
