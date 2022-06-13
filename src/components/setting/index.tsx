@@ -16,12 +16,37 @@ import Search from "../common/Search";
 import { EditorIcon } from "../icons/EditorIcon";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
+import moment from "moment";
+import { CSVLink } from "react-csv";
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
 }
 
+interface Item {
+  code: string;
+  dateExport: string;
+  dateUsed: string;
+  id: string;
+  name: string;
+  price: string;
+  priceC: string;
+  status: number;
+  stt: number;
+}
+
 const Setting = ({ setTagIndex }: Props) => {
   const [dataTicketPage, setDataTicketPage] = useState<any[]>([]);
+  const [item, setItem] = useState<Item>({
+    code: "ABCDEF10",
+    dateExport: "10/01/2022",
+    dateUsed: "10/03/2022",
+    id: "04G1r7p26PdNIhQSsOfK",
+    name: "AAAAAA10",
+    price: "Cổng 1",
+    priceC: "Cổng 1",
+    status: 1,
+    stt: 10,
+  });
 
   useEffect(() => {
     setTagIndex("setting");
@@ -187,7 +212,7 @@ const Setting = ({ setTagIndex }: Props) => {
 
     {
       title: "",
-      render: () => {
+      render: (item: any) => {
         return (
           <div
             style={{
@@ -198,7 +223,10 @@ const Setting = ({ setTagIndex }: Props) => {
               alignItems: "center",
               cursor: "pointer",
             }}
-            onClick={() => setModalUpdate(true)}
+            onClick={() => {
+              setModalUpdate(true);
+              setItem(item);
+            }}
           >
             <EditorIcon />
             <span style={{ marginLeft: "4px" }}>Cập nhật</span>
@@ -230,15 +258,17 @@ const Setting = ({ setTagIndex }: Props) => {
       >
         <Search size="445px" placeholder="Tìm bằng số vé" />
         <div style={{ marginTop: "-4px" }}>
-          <Button padding="0 24px" margin="0 10px" width="fit-content">
-            <span
-              style={{
-                display: "inline-block",
-                transform: "translate(-6px, 4px)",
-              }}
-            ></span>
-            Xuất file (.csv)
-          </Button>
+          <CSVLink data={dataTicketPage}>
+            <Button padding="0 24px" margin="0 10px" width="fit-content">
+              <span
+                style={{
+                  display: "inline-block",
+                  transform: "translate(-6px, 4px)",
+                }}
+              ></span>
+              Xuất file (.csv)
+            </Button>
+          </CSVLink>
           <Button width="180px" type="primary" onClick={() => setModal(true)}>
             Thêm gói vé
           </Button>
@@ -311,7 +341,7 @@ const Setting = ({ setTagIndex }: Props) => {
             </div>
             <input
               type="text"
-              value="PKG20210502"
+              value={item.code}
               style={{
                 padding: "20px",
                 marginTop: "4px",
@@ -331,6 +361,7 @@ const Setting = ({ setTagIndex }: Props) => {
             </div>
             <input
               type="text"
+              value={item.name}
               placeholder="Hội chợ triển lãm hàng tiêu dùng 2021"
               style={{
                 padding: "20px",
@@ -352,10 +383,12 @@ const Setting = ({ setTagIndex }: Props) => {
               </span>
             </div>
             <DatePicker
+              value={moment(item.dateUsed)}
               style={{ height: "40px", width: "145px" }}
-              placeholder="dd:mm:yy"
+              // placeholder="dd:mm:yy"
             />
             <TimePicker
+              value={moment(item.dateUsed)}
               use12Hours
               format="h:mm:ss"
               placeholder="hh:mm:yy"
@@ -369,10 +402,12 @@ const Setting = ({ setTagIndex }: Props) => {
               </span>
             </div>
             <DatePicker
+              value={moment(item.dateExport)}
               style={{ height: "40px", width: "145px" }}
-              placeholder="dd:mm:yyy"
+              // placeholder="dd:mm:yyy"
             />
             <TimePicker
+              value={moment(item.dateExport)}
               placeholder="hh:mm:yy"
               use12Hours
               format="h:mm:ss"
@@ -400,7 +435,17 @@ const Setting = ({ setTagIndex }: Props) => {
               borderRadius: "8px",
             }}
           >
-            Giá vé
+            <input
+              defaultValue={90000}
+              placeholder="Giá vé"
+              style={{
+                width: "100%",
+                height: "100%",
+                border: "none",
+                background: "none",
+                outline: "none",
+              }}
+            />
           </div>
           /vé
         </div>
@@ -426,7 +471,17 @@ const Setting = ({ setTagIndex }: Props) => {
               borderRadius: "8px",
             }}
           >
-            Giá vé
+            <input
+              defaultValue={360000}
+              placeholder="Giá vé"
+              style={{
+                width: "100%",
+                height: "100%",
+                border: "none",
+                background: "none",
+                outline: "none",
+              }}
+            />
           </div>
           /
           <div
@@ -442,7 +497,17 @@ const Setting = ({ setTagIndex }: Props) => {
               borderRadius: "8px",
             }}
           >
-            Giá vé
+            <input
+              defaultValue={90000}
+              placeholder="Giá vé"
+              style={{
+                width: "100%",
+                height: "100%",
+                border: "none",
+                background: "none",
+                outline: "none",
+              }}
+            />
           </div>
           vé
         </div>
@@ -586,7 +651,16 @@ const Setting = ({ setTagIndex }: Props) => {
               borderRadius: "8px",
             }}
           >
-            Giá vé
+            <input
+              placeholder="Giá vé"
+              style={{
+                width: "100%",
+                height: "100%",
+                border: "none",
+                background: "none",
+                outline: "none",
+              }}
+            />
           </div>
           /vé
         </div>
@@ -612,7 +686,16 @@ const Setting = ({ setTagIndex }: Props) => {
               borderRadius: "8px",
             }}
           >
-            Giá vé
+            <input
+              placeholder="Giá vé"
+              style={{
+                width: "100%",
+                height: "100%",
+                border: "none",
+                background: "none",
+                outline: "none",
+              }}
+            />
           </div>
           /
           <div
@@ -628,7 +711,16 @@ const Setting = ({ setTagIndex }: Props) => {
               borderRadius: "8px",
             }}
           >
-            Giá vé
+            <input
+              placeholder="Giá vé"
+              style={{
+                width: "100%",
+                height: "100%",
+                border: "none",
+                background: "none",
+                outline: "none",
+              }}
+            />
           </div>
           vé
         </div>

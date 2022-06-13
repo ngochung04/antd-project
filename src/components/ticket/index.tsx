@@ -15,6 +15,7 @@ import { FilterIcon } from "../icons/FilterIcon";
 import { Checkbox } from "antd";
 import { db } from "../../firebase";
 import { collection, onSnapshot } from "firebase/firestore";
+import { CSVLink } from "react-csv";
 
 interface Props {
   setTagIndex: React.Dispatch<React.SetStateAction<string>>;
@@ -56,20 +57,27 @@ const Ticket = ({ setTagIndex }: Props) => {
   const [check, setCheck] = useState<number[]>([1, 2, 3, 4, 5]);
 
   const onClick = (val: number) => {
-    if (check.includes(val)) {
-      setCheck(check.filter((item) => item !== val));
+    if (check.includes(0)) {
+      const newCheck = check.filter((item: number) => item !== 0);
+      setCheck([...newCheck, val]);
     } else {
       if (val === 0) {
-        if (check.length === 5) {
-          setCheck([]);
-        } else {
-          setCheck([1, 2, 3, 4, 5]);
-        }
+        setCheck([0]);
       } else {
-        setCheck([...check, val]);
+        if (check.includes(val)) {
+          const newCheck = check.filter((item: number) => item !== val);
+          setCheck([...newCheck]);
+        } else {
+          setCheck([...check, val]);
+        }
       }
     }
   };
+  useEffect(() => {
+    if (check.length === 5) {
+      setCheck([0]);
+    }
+  }, [check]);
 
   const [modal, setModal] = useState(false);
 
@@ -255,25 +263,27 @@ const Ticket = ({ setTagIndex }: Props) => {
             </span>
             Lọc vé
           </Button>
-          <Button
-            width="180px"
-            // onClick={() => {
-            //   [...Array(30)].map((x, i) =>
-            //     addDoc(collection(db, "setting"), {
-            //       stt: i,
-            //       code: "ABCDEF" + i,
-            //       name: "AAAAAA" + i,
-            //       dateUsed: i + "/03/2022",
-            //       dateExport: i + "/01/2022",
-            //       price: "Cổng 1",
-            //       priceC: "Cổng 1",
-            //       status: Math.floor(Math.random() * 3) - 1,
-            //     })
-            //   );
-            // }}
-          >
-            Xuất file (.csv)
-          </Button>
+          <CSVLink data={dataTicketPage}>
+            <Button
+              width="180px"
+              // onClick={() => {
+              //   [...Array(30)].map((x, i) =>
+              //     addDoc(collection(db, "setting"), {
+              //       stt: i,
+              //       code: "ABCDEF" + i,
+              //       name: "AAAAAA" + i,
+              //       dateUsed: i + "/03/2022",
+              //       dateExport: i + "/01/2022",
+              //       price: "Cổng 1",
+              //       priceC: "Cổng 1",
+              //       status: Math.floor(Math.random() * 3) - 1,
+              //     })
+              //   );
+              // }}
+            >
+              Xuất file (.csv)
+            </Button>
+          </CSVLink>
         </div>
       </div>
       <Table

@@ -22,6 +22,7 @@ interface Props {
 
 const Check = ({ setTagIndex }: Props) => {
   const [dataTicketPage, setDataTicketPage] = useState<any[]>([]);
+  const [data, setData] = useState<any[]>([]);
   useEffect(() => {
     setTagIndex("check");
     const data = async () => {
@@ -33,6 +34,7 @@ const Check = ({ setTagIndex }: Props) => {
         };
       });
       setDataTicketPage(ticketData);
+      setData(ticketData);
     };
     data();
   }, [setTagIndex]);
@@ -253,7 +255,16 @@ const Check = ({ setTagIndex }: Props) => {
           </Col>
         </Row>
         <Row style={{ margin: "32px auto" }}>
-          <Button margin="0 auto">Lọc</Button>
+          <Button
+            margin="0 auto"
+            onClick={() => {
+              const newData = data.filter((item) => { })
+              if (value === 1 || value === 2) setDataTicketPage(data);
+              else setDataTicketPage([]);
+            }}
+          >
+            Lọc
+          </Button>
         </Row>
       </Layout.Content>
     </div>
