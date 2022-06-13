@@ -416,7 +416,7 @@ const Ticket = ({ setTagIndex }: Props) => {
 
         <Row>
           <Col span={8}>
-            <Checkbox checked={check.length === 5} onClick={() => onClick(0)}>
+            <Checkbox checked={check.includes(0)} onClick={() => onClick(0)}>
               Check All
             </Checkbox>
           </Col>
