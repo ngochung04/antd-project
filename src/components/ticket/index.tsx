@@ -14,7 +14,7 @@ import Search from "../common/Search";
 import { FilterIcon } from "../icons/FilterIcon";
 import { Checkbox } from "antd";
 import { db } from "../../firebase";
-import { collection, onSnapshot } from "firebase/firestore";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { CSVLink } from "react-csv";
 
 interface Props {
@@ -43,8 +43,8 @@ const Ticket = ({ setTagIndex }: Props) => {
         snapshot.docs.forEach((doc: any) => {
           books.push({ ...doc.data(), id: doc.id });
         });
-        setDataTicketPage(books);
-        setData(books);
+        setDataTicketPage(books.sort((a: any, b: any) => a.stt - b.stt));
+        setData(books.sort((a: any, b: any) => a.stt - b.stt));
       });
     };
     data();
@@ -91,18 +91,18 @@ const Ticket = ({ setTagIndex }: Props) => {
     },
     {
       title: () => <div style={{ marginLeft: "64px" }}>Booking code</div>,
-      dataIndex: "code",
+      dataIndex: "macode",
       render: (stt: string) => {
         return <div style={{ marginLeft: "64px" }}>{stt}</div>;
       },
     },
     {
       title: "Số vé",
-      dataIndex: "ticketNumber",
+      dataIndex: "sove",
     },
     {
       title: () => <div style={{ marginLeft: "64px" }}>Tình trạng sử dụng</div>,
-      dataIndex: "status",
+      dataIndex: "tinhtrangsudung",
       render: (status: number) => {
         switch (status) {
           case 0:
@@ -185,8 +185,9 @@ const Ticket = ({ setTagIndex }: Props) => {
           Ngày sử dụng
         </div>
       ),
-      dataIndex: "dateUsed",
+      dataIndex: "ngaysudung",
       render: (date: string) => {
+        const dateTime = new Date(date).toLocaleDateString("vi-VN");
         return (
           <div
             style={{
@@ -194,7 +195,7 @@ const Ticket = ({ setTagIndex }: Props) => {
               marginRight: "32px",
             }}
           >
-            {date}
+            {dateTime}
           </div>
         );
       },
@@ -210,8 +211,9 @@ const Ticket = ({ setTagIndex }: Props) => {
           Ngày xuất vé
         </div>
       ),
-      dataIndex: "dateExport",
+      dataIndex: "ngayxuatve",
       render: (date: string) => {
+        const dateTime = new Date(date).toLocaleDateString("vi-VN");
         return (
           <div
             style={{
@@ -219,14 +221,26 @@ const Ticket = ({ setTagIndex }: Props) => {
               marginRight: "32px",
             }}
           >
-            {date}
+            {dateTime}
           </div>
         );
       },
     },
     {
       title: "Cổng check-in",
-      dataIndex: "portCheckIn",
+      dataIndex: "congcheckin",
+      render: (port: number) => {
+        return (
+          <div
+            style={{
+              textAlign: "right",
+              marginRight: "32px",
+            }}
+          >
+            Cổng {port}
+          </div>
+        );
+      },
     },
   ];
 
@@ -250,7 +264,15 @@ const Ticket = ({ setTagIndex }: Props) => {
           justifyContent: "space-between",
         }}
       >
-        <Search size="445px" placeholder="Tìm bằng số vé" />
+        <Search
+          size="445px"
+          placeholder="Tìm bằng số vé"
+          onChange={(e) => {
+            setDataTicketPage(
+              data.filter((item) => item.sove.toString().includes(e))
+            );
+          }}
+        />
         <div style={{ marginTop: "-4px" }}>
           <Button margin="0 10px" width="128px" onClick={() => setModal(true)}>
             <span
@@ -267,18 +289,18 @@ const Ticket = ({ setTagIndex }: Props) => {
             <Button
               width="180px"
               // onClick={() => {
-              //   [...Array(30)].map((x, i) =>
-              //     addDoc(collection(db, "setting"), {
+              //   [...Array(29)].map((x, i) => {
+              //     const datex = new Date(2022, 4, i + 1);
+              //     addDoc(collection(db, "check"), {
               //       stt: i,
-              //       code: "ABCDEF" + i,
-              //       name: "AAAAAA" + i,
-              //       dateUsed: i + "/03/2022",
-              //       dateExport: i + "/01/2022",
-              //       price: "Cổng 1",
-              //       priceC: "Cổng 1",
-              //       status: Math.floor(Math.random() * 3) - 1,
-              //     })
-              //   );
+              //       sove: i + 103453432,
+              //       tensukien: "Hội chợ triển lãm tiêu dùng 2022",
+              //       ngaysudung: datex.getTime(),
+              //       loaive: "Vé cổng",
+              //       congcheckin: Math.floor(Math.random() * 5) + 1,
+              //       doixoat: false,
+              //     });
+              //   });
               // }}
             >
               Xuất file (.csv)
@@ -308,28 +330,31 @@ const Ticket = ({ setTagIndex }: Props) => {
         onOk={() => {
           const newArr1 = data.filter((item) => {
             if (status !== -2) {
-              return item.status === status;
+              return item.tinhtrangsudung === status;
             }
             return true;
           });
-          const newArr2 = newArr1.filter((item) =>
-            check.includes(
-              Number(item.portCheckIn.slice(item.portCheckIn.length - 1))
-            )
-          );
+          const newArr2 = newArr1.filter((item) => {
+            if (check.includes(0) || check.includes(item.congcheckin))
+              return true;
+            return false;
+          });
+
           const newArr3 = newArr2.filter((item) => {
-            if (
-              datefrom &&
-              dateto &&
-              item.dateExport < datefrom.toLocaleDateString() &&
-              item.dateExport > dateto.toLocaleDateString()
-            )
+            if (datefrom && dateto) {
+              if (
+                item.ngayxuatve > datefrom.getTime() &&
+                item.ngayxuatve < dateto.getTime()
+              )
+                return true;
               return false;
+            }
             return true;
           });
-          // console.log(newArr3);
-          setDataTicketPage(newArr3);
-          setModal(false);
+
+          console.log(newArr3);
+          // setDataTicketPage(newArr3);
+          // setModal(false);
         }}
         closeIcon={<></>}
         width="630px"

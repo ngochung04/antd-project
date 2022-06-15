@@ -14,7 +14,13 @@ import React, { useEffect, useState } from "react";
 import Button from "../common/Button";
 import Search from "../common/Search";
 import { EditorIcon } from "../icons/EditorIcon";
-import { collection, onSnapshot } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 import moment from "moment";
 import { CSVLink } from "react-csv";
@@ -23,28 +29,29 @@ interface Props {
 }
 
 interface Item {
-  code: string;
-  dateExport: string;
-  dateUsed: string;
+  maGoi: string;
+  ngayhethan: number;
+  ngayapdung: number;
   id: string;
-  name: string;
-  price: string;
-  priceC: string;
-  status: number;
+  tenGoi: string;
+  giave: number;
+  giacombo: number;
+  tinhtrang: number;
   stt: number;
 }
 
 const Setting = ({ setTagIndex }: Props) => {
   const [dataTicketPage, setDataTicketPage] = useState<any[]>([]);
+  const [data, setData] = useState<any[]>([]);
   const [item, setItem] = useState<Item>({
-    code: "ABCDEF10",
-    dateExport: "10/01/2022",
-    dateUsed: "10/03/2022",
+    maGoi: "ABCDEF10",
+    ngayhethan: 0,
+    ngayapdung: 0,
     id: "04G1r7p26PdNIhQSsOfK",
-    name: "AAAAAA10",
-    price: "Cổng 1",
-    priceC: "Cổng 1",
-    status: 1,
+    tenGoi: "AAAAAA10",
+    giave: 0,
+    giacombo: 0,
+    tinhtrang: 1,
     stt: 10,
   });
 
@@ -68,7 +75,8 @@ const Setting = ({ setTagIndex }: Props) => {
         snapshot.docs.forEach((doc: any) => {
           books.push({ ...doc.data(), id: doc.id });
         });
-        setDataTicketPage(books);
+        setDataTicketPage(books.sort((a: any, b: any) => a.stt - b.stt));
+        setData(books.sort((a: any, b: any) => a.stt - b.stt));
       });
     };
     data();
@@ -76,6 +84,12 @@ const Setting = ({ setTagIndex }: Props) => {
 
   const [modal, setModal] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
+  const [ten, setTen] = useState("");
+  const [fdate, setFdate] = useState(0);
+  const [tdate, setTdate] = useState(0);
+  const [giave, setGiave] = useState(0);
+  const [giacombo, setGiacombo] = useState(0);
+  const [tinhtrang, setTinhtrang] = useState(1);
 
   const columns = [
     {
@@ -87,14 +101,14 @@ const Setting = ({ setTagIndex }: Props) => {
     },
     {
       title: () => <div style={{}}>Mã gói</div>,
-      dataIndex: "code",
+      dataIndex: "maGoi",
       render: (stt: string) => {
         return <div style={{}}>{stt}</div>;
       },
     },
     {
       title: () => <div style={{}}>Tên gói</div>,
-      dataIndex: "name",
+      dataIndex: "tenGoi",
       render: (stt: string) => {
         return <div style={{}}>{stt}</div>;
       },
@@ -109,15 +123,16 @@ const Setting = ({ setTagIndex }: Props) => {
           Ngày áp dụng
         </div>
       ),
-      dataIndex: "dateUsed",
-      render: (date: string) => {
+      dataIndex: "ngayapdung",
+      render: (date: number) => {
+        const d = new Date(date).toLocaleDateString("vi-VN");
         return (
           <div
             style={{
               textAlign: "right",
             }}
           >
-            {date}
+            {d}
           </div>
         );
       },
@@ -132,36 +147,47 @@ const Setting = ({ setTagIndex }: Props) => {
           Ngày hết hạn
         </div>
       ),
-      dataIndex: "dateExport",
-      render: (date: string) => {
+      dataIndex: "ngayhethan",
+      render: (date: number) => {
+        const d = new Date(date).toLocaleDateString("vi-VN");
         return (
           <div
             style={{
               textAlign: "right",
             }}
           >
-            {date}
+            {d}
           </div>
         );
       },
     },
     {
       title: () => <div style={{}}>Giá vé {"(VND/Vé)"}</div>,
-      dataIndex: "price",
-      render: () => {
-        return <div style={{}}>90.000 VNĐ</div>;
+      dataIndex: "giave",
+      render: (p: number) => {
+        return (
+          <div style={{}}>
+            {p.toLocaleString("it-IT", { style: "currency", currency: "VND" })}
+          </div>
+        );
       },
     },
     {
       title: () => <div style={{}}>Giá vé {"(VND/Combo)"}</div>,
-      dataIndex: "priceC",
-      render: () => {
-        return <div style={{}}>360.000 VNĐ/4 Vé</div>;
+      dataIndex: "giacombo",
+      render: (p: number) => {
+        return (
+          <div style={{}}>
+            {" "}
+            {p.toLocaleString("it-IT", { style: "currency", currency: "VND" })}
+            /4 Vé
+          </div>
+        );
       },
     },
     {
       title: () => <div style={{}}>Tình trạng</div>,
-      dataIndex: "status",
+      dataIndex: "tinhtrang",
       render: (status: number) => {
         switch (status) {
           case 1:
@@ -256,7 +282,15 @@ const Setting = ({ setTagIndex }: Props) => {
           justifyContent: "space-between",
         }}
       >
-        <Search size="445px" placeholder="Tìm bằng số vé" />
+        <Search
+          size="445px"
+          placeholder="Tìm bằng số vé"
+          onChange={(e) => {
+            setDataTicketPage(
+              data.filter((item) => item.sove.toString().includes(e))
+            );
+          }}
+        />
         <div style={{ marginTop: "-4px" }}>
           <CSVLink data={dataTicketPage}>
             <Button padding="0 24px" margin="0 10px" width="fit-content">
@@ -293,7 +327,20 @@ const Setting = ({ setTagIndex }: Props) => {
       />
       <Modal
         visible={modalUpdate}
-        onOk={() => setModalUpdate(false)}
+        onOk={() => {
+          const newData = [...dataTicketPage];
+          const i = newData.findIndex((x) => x.id === item.id);
+          newData[i] = item;
+          let docRef = doc(db, "setting", item.id);
+
+          updateDoc(docRef, {
+            ...item,
+          }).then(() => {
+            setDataTicketPage(newData);
+          });
+
+          setModalUpdate(false);
+        }}
         closeIcon={<></>}
         width="750px"
         bodyStyle={{ borderRadius: "16px" }}
@@ -341,7 +388,10 @@ const Setting = ({ setTagIndex }: Props) => {
             </div>
             <input
               type="text"
-              value={item.code}
+              value={item.maGoi}
+              onChange={(e) => {
+                setItem({ ...item, maGoi: e.target.value });
+              }}
               style={{
                 padding: "20px",
                 marginTop: "4px",
@@ -361,7 +411,10 @@ const Setting = ({ setTagIndex }: Props) => {
             </div>
             <input
               type="text"
-              value={item.name}
+              onChange={(e) => {
+                setItem({ ...item, tenGoi: e.target.value });
+              }}
+              value={item.tenGoi}
               placeholder="Hội chợ triển lãm hàng tiêu dùng 2021"
               style={{
                 padding: "20px",
@@ -383,12 +436,16 @@ const Setting = ({ setTagIndex }: Props) => {
               </span>
             </div>
             <DatePicker
-              value={moment(item.dateUsed)}
+              onChange={(e) => {
+                const d = e?.toDate().getTime();
+                d && setItem({ ...item, ngayapdung: d });
+              }}
+              value={moment(item.ngayapdung)}
               style={{ height: "40px", width: "145px" }}
               // placeholder="dd:mm:yy"
             />
             <TimePicker
-              value={moment(item.dateUsed)}
+              value={moment(item.ngayapdung)}
               use12Hours
               format="h:mm:ss"
               placeholder="hh:mm:yy"
@@ -402,12 +459,16 @@ const Setting = ({ setTagIndex }: Props) => {
               </span>
             </div>
             <DatePicker
-              value={moment(item.dateExport)}
+              onChange={(e) => {
+                const d = e?.toDate().getTime();
+                d && setItem({ ...item, ngayhethan: d });
+              }}
+              value={moment(item.ngayhethan)}
               style={{ height: "40px", width: "145px" }}
               // placeholder="dd:mm:yyy"
             />
             <TimePicker
-              value={moment(item.dateExport)}
+              value={moment(item.ngayhethan)}
               placeholder="hh:mm:yy"
               use12Hours
               format="h:mm:ss"
@@ -436,7 +497,11 @@ const Setting = ({ setTagIndex }: Props) => {
             }}
           >
             <input
-              defaultValue={90000}
+              type="number"
+              defaultValue={item.giave}
+              onChange={(e) =>
+                setItem({ ...item, giave: Number(e.target.value) })
+              }
               placeholder="Giá vé"
               style={{
                 width: "100%",
@@ -472,7 +537,11 @@ const Setting = ({ setTagIndex }: Props) => {
             }}
           >
             <input
-              defaultValue={360000}
+              defaultValue={item.giacombo}
+              onChange={(e) =>
+                setItem({ ...item, giacombo: Number(e.target.value) })
+              }
+              type="number"
               placeholder="Giá vé"
               style={{
                 width: "100%",
@@ -498,7 +567,7 @@ const Setting = ({ setTagIndex }: Props) => {
             }}
           >
             <input
-              defaultValue={90000}
+              defaultValue={4}
               placeholder="Giá vé"
               style={{
                 width: "100%",
@@ -521,15 +590,22 @@ const Setting = ({ setTagIndex }: Props) => {
           placeholder="Đang áp dụng"
           optionFilterProp="children"
           filterOption={(input, option) =>
-            (option!.children as unknown as string).includes(input)
+            (option!.label as unknown as string).includes(input)
           }
           filterSort={(optionA, optionB) =>
-            (optionA!.children as unknown as string)
+            (optionA!.label as unknown as string)
               .toLowerCase()
               .localeCompare(
-                (optionB!.children as unknown as string).toLowerCase()
+                (optionB!.label as unknown as string).toLowerCase()
               )
           }
+          options={[
+            { label: "Đang áp dụng", value: 1 },
+            { label: "Tắt", value: 0 },
+          ]}
+          onChange={(e) => {
+            setItem({ ...item, tinhtrang: Number(e) });
+          }}
         ></Select>
 
         <div>
@@ -539,7 +615,20 @@ const Setting = ({ setTagIndex }: Props) => {
       </Modal>
       <Modal
         visible={modal}
-        onOk={() => setModal(false)}
+        onOk={() => {
+          addDoc(collection(db, "setting"), {
+            stt: Math.max(...data.map((o) => o.stt)) + 1,
+            maGoi: "ABCDEF" + data.length + 1,
+            tenGoi: ten,
+            ngayapdung: fdate,
+            ngayhethan: tdate,
+            giave: giave,
+            giacombo: giacombo,
+            tinhtrang: tinhtrang,
+          });
+
+          setModal(false);
+        }}
         closeIcon={<></>}
         width="750px"
         bodyStyle={{ borderRadius: "16px" }}
@@ -594,6 +683,7 @@ const Setting = ({ setTagIndex }: Props) => {
             height: "40px",
             width: "370px",
           }}
+          onChange={(e) => setTen(e.target.value)}
         />
         <Row>
           <Col span={11}>
@@ -603,6 +693,10 @@ const Setting = ({ setTagIndex }: Props) => {
               </span>
             </div>
             <DatePicker
+              onChange={(e) => {
+                const d = e?.toDate()?.getTime();
+                d && setFdate(d);
+              }}
               style={{ height: "40px", width: "145px" }}
               placeholder="dd:mm:yy"
             />
@@ -620,6 +714,10 @@ const Setting = ({ setTagIndex }: Props) => {
               </span>
             </div>
             <DatePicker
+              onChange={(e) => {
+                const d = e?.toDate()?.getTime();
+                d && setTdate(d);
+              }}
               style={{ height: "40px", width: "145px" }}
               placeholder="dd:mm:yyy"
             />
@@ -652,6 +750,8 @@ const Setting = ({ setTagIndex }: Props) => {
             }}
           >
             <input
+              type="number"
+              onChange={(e) => setGiave(Number(e.target.value))}
               placeholder="Giá vé"
               style={{
                 width: "100%",
@@ -687,6 +787,8 @@ const Setting = ({ setTagIndex }: Props) => {
             }}
           >
             <input
+              type="number"
+              onChange={(e) => setGiacombo(Number(e.target.value))}
               placeholder="Giá vé"
               style={{
                 width: "100%",
@@ -712,6 +814,7 @@ const Setting = ({ setTagIndex }: Props) => {
             }}
           >
             <input
+              type="number"
               placeholder="Giá vé"
               style={{
                 width: "100%",
@@ -734,15 +837,20 @@ const Setting = ({ setTagIndex }: Props) => {
           placeholder="Đang áp dụng"
           optionFilterProp="children"
           filterOption={(input, option) =>
-            (option!.children as unknown as string).includes(input)
+            (option!.label as unknown as string).includes(input)
           }
           filterSort={(optionA, optionB) =>
-            (optionA!.children as unknown as string)
+            (optionA!.label as unknown as string)
               .toLowerCase()
               .localeCompare(
-                (optionB!.children as unknown as string).toLowerCase()
+                (optionB!.label as unknown as string).toLowerCase()
               )
           }
+          options={[
+            { label: "Đang áp dụng", value: 1 },
+            { label: "Tắt", value: 0 },
+          ]}
+          onChange={(e) => setTinhtrang(Number(e))}
         ></Select>
 
         <div>

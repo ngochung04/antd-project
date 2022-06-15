@@ -33,13 +33,15 @@ const Check = ({ setTagIndex }: Props) => {
           id: item.id,
         };
       });
-      setDataTicketPage(ticketData);
-      setData(ticketData);
+      setDataTicketPage(ticketData.sort((a: any, b: any) => a.stt - b.stt));
+      setData(ticketData.sort((a: any, b: any) => a.stt - b.stt));
     };
     data();
   }, [setTagIndex]);
-
-  const [value, setValue] = useState(1);
+  const [datefrom, setFrom] = useState<Date>();
+  const [dateto, setTo] = useState<Date>();
+  const [value, setValue] = useState(2);
+  const [search, setSearch] = useState("");
 
   const onChange = (e: RadioChangeEvent) => {
     setValue(e.target.value);
@@ -55,14 +57,14 @@ const Check = ({ setTagIndex }: Props) => {
     },
     {
       title: () => <div style={{}}>Số vé</div>,
-      dataIndex: "ticketNumber",
+      dataIndex: "sove",
       render: (code: string) => {
         return <div style={{}}>{code}</div>;
       },
     },
     {
       title: () => <div style={{}}>Tên sự kiện</div>,
-      dataIndex: "name",
+      dataIndex: "tensukien",
       render: (name: string) => {
         return <div style={{}}>{name}</div>;
       },
@@ -77,15 +79,16 @@ const Check = ({ setTagIndex }: Props) => {
           Ngày sử dụng
         </div>
       ),
-      dataIndex: "dateUsed",
+      dataIndex: "ngaysudung",
       render: (date: string) => {
+        const dateTIme = new Date(date).toLocaleDateString("vi-VN");
         return (
           <div
             style={{
               textAlign: "right",
             }}
           >
-            {date}
+            {dateTIme}
           </div>
         );
       },
@@ -93,29 +96,30 @@ const Check = ({ setTagIndex }: Props) => {
 
     {
       title: "Loại vé",
-      dataIndex: "type",
+      dataIndex: "loaive",
       render: (type: string) => {
         return <div>{type}</div>;
       },
     },
     {
       title: "Cổng check-in",
-      dataIndex: "port",
+      dataIndex: "congcheckin",
       render: (port: string) => {
-        return <div>{port}</div>;
+        return <div>Cổng {port}</div>;
       },
     },
     {
       title: "",
-      render: (status: string) => {
+      dataIndex: "doixoat",
+      render: (status: boolean) => {
         return (
           <div
             style={{
-              color: "#A5A8B1",
+              color: status ? "#FD5959" : "#A5A8B1",
               fontWeight: "500",
             }}
           >
-            Chưa đối soát
+            {status === false ? "Chưa đổi xoát" : "Đã đổi xoát"}
           </div>
         );
       },
@@ -145,7 +149,15 @@ const Check = ({ setTagIndex }: Props) => {
             justifyContent: "space-between",
           }}
         >
-          <Search size="445px" placeholder="Tìm bằng số vé" />
+          <Search
+            size="445px"
+            placeholder="Tìm bằng số vé"
+            onChange={(e) => {
+              setDataTicketPage(
+                data.filter((item) => item.sove.toString().includes(e))
+              );
+            }}
+          />
           <div style={{ marginTop: "-4px" }}>
             <Button margin="0 10px" width="170px" type="primary">
               Chốt đối xoát
@@ -212,13 +224,13 @@ const Check = ({ setTagIndex }: Props) => {
           </Col>
           <Col span={11}>
             <Radio.Group onChange={onChange} value={value}>
-              <Radio value={1} style={{ display: "block" }}>
+              <Radio value={2} style={{ display: "block" }}>
                 Tất cả
               </Radio>
-              <Radio value={2} style={{ display: "block" }}>
+              <Radio value={1} style={{ display: "block" }}>
                 Đã đối soát
               </Radio>
-              <Radio value={3} style={{ display: "block" }}>
+              <Radio value={0} style={{ display: "block" }}>
                 Chưa đối soát
               </Radio>
             </Radio.Group>
@@ -239,6 +251,7 @@ const Check = ({ setTagIndex }: Props) => {
               style={{ height: "40px", marginTop: "-6px", width: "100%" }}
               defaultValue={moment("2021/05/01", "DD/MM/YYYY")}
               format={"DD/MM/YYYY"}
+              onChange={(e) => setFrom(e?.toDate())}
             />
           </Col>
         </Row>
@@ -251,6 +264,7 @@ const Check = ({ setTagIndex }: Props) => {
               style={{ height: "40px", marginTop: "-6px", width: "100%" }}
               placeholder="dd/mm/yyy"
               format={"DD/MM/YYYY"}
+              onChange={(e) => setTo(e?.toDate())}
             />
           </Col>
         </Row>
@@ -258,9 +272,29 @@ const Check = ({ setTagIndex }: Props) => {
           <Button
             margin="0 auto"
             onClick={() => {
-              const newData = data.filter((item) => { })
-              if (value === 1 || value === 2) setDataTicketPage(data);
-              else setDataTicketPage([]);
+              const newData = data.filter((item) => {
+                if (value === 2) {
+                  return true;
+                } else {
+                  if (value === 1) {
+                    return item.doixoat === true;
+                  }
+                  if (value === 0) {
+                    return item.doixoat === false;
+                  }
+                }
+              });
+              const newData1 = newData.filter((item) => {
+                if (datefrom && dateto) {
+                  return (
+                    item.ngaysudung >= datefrom.getTime() &&
+                    item.ngaysudung <= dateto.getTime()
+                  );
+                } else {
+                  return true;
+                }
+              });
+              setDataTicketPage(newData1);
             }}
           >
             Lọc
