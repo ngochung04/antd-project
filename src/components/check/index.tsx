@@ -38,10 +38,9 @@ const Check = ({ setTagIndex }: Props) => {
     };
     data();
   }, [setTagIndex]);
-  const [datefrom, setFrom] = useState<Date>();
-  const [dateto, setTo] = useState<Date>();
+  const [datefrom, setFrom] = useState(0);
+  const [dateto, setTo] = useState(0);
   const [value, setValue] = useState(2);
-  const [search, setSearch] = useState("");
 
   const onChange = (e: RadioChangeEvent) => {
     setValue(e.target.value);
@@ -159,7 +158,21 @@ const Check = ({ setTagIndex }: Props) => {
             }}
           />
           <div style={{ marginTop: "-4px" }}>
-            <Button margin="0 10px" width="170px" type="primary">
+            <Button
+              margin="0 10px"
+              width="170px"
+              type="primary"
+              onClick={() => {
+                setDataTicketPage(
+                  data.map((item) => {
+                    return {
+                      ...item,
+                      doixoat: true,
+                    };
+                  })
+                );
+              }}
+            >
               Chốt đối xoát
             </Button>
           </div>
@@ -251,7 +264,9 @@ const Check = ({ setTagIndex }: Props) => {
               style={{ height: "40px", marginTop: "-6px", width: "100%" }}
               defaultValue={moment("2021/05/01", "DD/MM/YYYY")}
               format={"DD/MM/YYYY"}
-              onChange={(e) => setFrom(e?.toDate())}
+              onChange={(e) => {
+                e?.toDate().getTime() && setFrom(e?.toDate().getTime());
+              }}
             />
           </Col>
         </Row>
@@ -264,7 +279,9 @@ const Check = ({ setTagIndex }: Props) => {
               style={{ height: "40px", marginTop: "-6px", width: "100%" }}
               placeholder="dd/mm/yyy"
               format={"DD/MM/YYYY"}
-              onChange={(e) => setTo(e?.toDate())}
+              onChange={(e) =>
+                e?.toDate().getTime() && setTo(e?.toDate().getTime())
+              }
             />
           </Col>
         </Row>
@@ -287,8 +304,7 @@ const Check = ({ setTagIndex }: Props) => {
               const newData1 = newData.filter((item) => {
                 if (datefrom && dateto) {
                   return (
-                    item.ngaysudung >= datefrom.getTime() &&
-                    item.ngaysudung <= dateto.getTime()
+                    item.ngaysudung >= datefrom && item.ngaysudung <= dateto
                   );
                 } else {
                   return true;
