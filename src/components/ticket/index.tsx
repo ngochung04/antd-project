@@ -290,18 +290,43 @@ const Ticket = ({ setTagIndex }: Props) => {
               width="180px"
               // onClick={() => {
               //   [...Array(29)].map((x, i) => {
+              //     // const datex = new Date(2022, 4, i + 1);
+              //     // addDoc(collection(db, "check"), {
+              //     //   stt: i,
+              //     //   sove: i + 103453432,
+              //     //   tensukien: "Hội chợ triển lãm tiêu dùng 2022",
+              //     //   ngaysudung: datex.getTime(),
+              //     //   loaive: "Vé cổng",
+              //     //   congcheckin: Math.floor(Math.random() * 5) + 1,
+              //     //   doixoat: false,
+              //     // });
+
+              //     // const date = new Date(2022, 3, i + 1);
+              //     // const datex = new Date(2022, 4, i + 1);
+              //     // addDoc(collection(db, "ticket"), {
+              //     //   stt: i,
+              //     //   macode: "ABCDEF" + i,
+              //     //   sove: i + 103453432,
+              //     //   tinhtrangsudung: Math.floor(Math.random() * 3) - 1,
+              //     //   ngaysudung: datex.getTime(),
+              //     //   ngayxuatve: date.getTime(),
+              //     //   congcheckin: Math.floor(Math.random() * 5) + 1,
+              //     // });
+
+              //     const date = new Date(2022, 3, i + 1);
               //     const datex = new Date(2022, 4, i + 1);
-              //     addDoc(collection(db, "check"), {
+              //     addDoc(collection(db, "setting"), {
               //       stt: i,
-              //       sove: i + 103453432,
-              //       tensukien: "Hội chợ triển lãm tiêu dùng 2022",
-              //       ngaysudung: datex.getTime(),
-              //       loaive: "Vé cổng",
-              //       congcheckin: Math.floor(Math.random() * 5) + 1,
-              //       doixoat: false,
+              //       maGoi: "ABCDEF" + i,
+              //       tenGoi: "AAAAAA" + i,
+              //       ngayapdung: date.getTime(),
+              //       ngayhethan: datex.getTime(),
+              //       giave: 90000,
+              //       giacombo: 360000,
+              //       tinhtrang: Math.floor(Math.random() * 3) - 1,
               //     });
               //   });
-              // }}
+              //  }}
             >
               Xuất file (.csv)
             </Button>
