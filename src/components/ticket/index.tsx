@@ -50,8 +50,8 @@ const Ticket = ({ setTagIndex }: Props) => {
     data();
   }, [setTagIndex]);
 
-  const [datefrom, setFrom] = useState<Date>();
-  const [dateto, setTo] = useState<Date>();
+  const [datefrom, setFrom] = useState(0);
+  const [dateto, setTo] = useState(0);
   const [status, setStatus] = useState(-2);
 
   const [check, setCheck] = useState<number[]>([1, 2, 3, 4, 5]);
@@ -342,10 +342,10 @@ const Ticket = ({ setTagIndex }: Props) => {
 
           const newArr3 = newArr2.filter((item) => {
             if (datefrom && dateto) {
-              if (
-                item.ngayxuatve > datefrom.getTime() &&
-                item.ngayxuatve < dateto.getTime()
-              )
+              console.log(
+                item.ngayxuatve > datefrom && item.ngayxuatve < dateto
+              );
+              if (item.ngayxuatve > datefrom && item.ngayxuatve < dateto)
                 return true;
               return false;
             }
@@ -353,8 +353,8 @@ const Ticket = ({ setTagIndex }: Props) => {
           });
 
           console.log(newArr3);
-          // setDataTicketPage(newArr3);
-          // setModal(false);
+          setDataTicketPage(newArr3);
+          setModal(false);
         }}
         closeIcon={<></>}
         width="630px"
@@ -396,7 +396,7 @@ const Ticket = ({ setTagIndex }: Props) => {
             </div>
             <DatePicker
               onChange={(e) => {
-                setFrom(e?.toDate());
+                e?.toDate().getTime() && setFrom(e?.toDate().getTime());
               }}
               style={{ height: "40px", width: "145px" }}
               placeholder="dd:mm:yy"
@@ -410,7 +410,7 @@ const Ticket = ({ setTagIndex }: Props) => {
             </div>
             <DatePicker
               onChange={(e) => {
-                setTo(e?.toDate());
+                e?.toDate().getTime() && setTo(e?.toDate().getTime());
               }}
               style={{ height: "40px", width: "145px" }}
               placeholder="dd:mm:yyy"
